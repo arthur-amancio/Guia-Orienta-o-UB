@@ -6,7 +6,15 @@ import {
   ClipboardCheck, Download, ExternalLink, FileText, ListChecks, Search,
   ShieldCheck, TicketCheck, UserRoundCheck
 } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  Carousel,
+  type CarouselApi,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
 
 const SUPPORT = 'https://suporte.ub.edu.br/Helpdesk';
 
@@ -20,6 +28,92 @@ const topics = [
   { id: 'acompanhar', title: 'Acompanhar chamados', icon: UserRoundCheck, terms: 'status novo pendente solucionado fechado resposta histórico' },
   { id: 'faq-reservas', title: 'FAQ e reservas', icon: CalendarDays, terms: 'artigos ajuda pesquisar reserva equipamento calendário' },
 ];
+
+const highlights = [
+  {
+    eyebrow: 'Seu ponto de partida',
+    title: 'Suporte sem complicação',
+    description: 'Descubra o caminho certo para registrar sua necessidade e agilizar o atendimento desde o primeiro contato.',
+    image: '/suporte-abrir-chamado.png',
+    alt: 'Colaboradora da universidade utilizando um computador no escritório',
+    href: '#abrir',
+    action: 'Aprender a abrir um chamado',
+  },
+  {
+    eyebrow: 'Do início à solução',
+    title: 'Acompanhe cada etapa',
+    description: 'Entenda os status, responda às solicitações da equipe e mantenha todo o histórico em um só lugar.',
+    image: '/suporte-acompanhar.png',
+    alt: 'Profissionais da universidade acompanhando um atendimento em um notebook',
+    href: '#acompanhar',
+    action: 'Ver como acompanhar',
+  },
+  {
+    eyebrow: 'Respostas mais rápidas',
+    title: 'Consulte antes de solicitar',
+    description: 'Pesquise orientações, confira exemplos e reúna as informações necessárias antes de enviar seu chamado.',
+    image: '/suporte-consultar-guia.png',
+    alt: 'Colaboradora consultando orientações em um notebook na biblioteca',
+    href: '#qualidade',
+    action: 'Preparar um bom chamado',
+  },
+];
+
+function HeroCarousel() {
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    if (!api) return;
+    const updateCurrent = () => setCurrent(api.selectedScrollSnap());
+    updateCurrent();
+    api.on('select', updateCurrent);
+    return () => { api.off('select', updateCurrent); };
+  }, [api]);
+
+  return (
+    <section className="hero" aria-label="Destaques do guia">
+      <Carousel setApi={setApi} opts={{ loop: true }} className="hero-carousel">
+        <CarouselContent className="hero-track">
+          {highlights.map((slide, index) => (
+            <CarouselItem key={slide.title} className="hero-slide">
+              <div className="hero-copy">
+                <p className="eyebrow">{slide.eyebrow}</p>
+                <h1>{slide.title}</h1>
+                <p className="hero-description">{slide.description}</p>
+                <div className="hero-actions">
+                  <a className="hero-primary" href={slide.href}>{slide.action} <ArrowRight size={17} /></a>
+                  <a className="hero-secondary" href={SUPPORT} target="_blank" rel="noreferrer">Abrir o Suporte <ExternalLink size={16} /></a>
+                </div>
+              </div>
+              <div className="hero-image" aria-hidden={current !== index}>
+                <Image src={slide.image} alt={slide.alt} fill priority={index === 0} sizes="(max-width: 820px) 100vw, 54vw" />
+                <span className="hero-image-shade" />
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <div className="hero-navigation">
+          <CarouselPrevious className="hero-arrow hero-arrow-prev" aria-label="Voltar destaque" />
+          <div className="hero-dots" role="tablist" aria-label="Escolher destaque">
+            {highlights.map((slide, index) => (
+              <button
+                key={slide.title}
+                type="button"
+                role="tab"
+                aria-selected={current === index}
+                aria-label={`Mostrar destaque ${index + 1}: ${slide.title}`}
+                className={current === index ? 'is-active' : ''}
+                onClick={() => api?.scrollTo(index)}
+              />
+            ))}
+          </div>
+          <CarouselNext className="hero-arrow hero-arrow-next" aria-label="Avançar destaque" />
+        </div>
+      </Carousel>
+    </section>
+  );
+}
 
 function Steps({ items }: { items: string[] }) {
   return <ol className="steps">{items.map((item, i) => <li key={item}><span>{i + 1}</span><p>{item}</p></li>)}</ol>;
@@ -43,12 +137,12 @@ export default function Home() {
         </nav>
       </header>
 
-      <section id="inicio" className="intro">
-        <div>
-          <p className="eyebrow">Central de orientação</p>
-          <h1>Suporte sem complicação</h1>
-          <p className="lead">Entenda onde clicar, como preencher cada campo e como acompanhar seu atendimento do início ao fim.</p>
-        </div>
+      <div id="inicio">
+        <HeroCarousel />
+      </div>
+
+      <section className="guide-search" aria-label="Pesquisa no guia">
+        <div><p className="eyebrow">Encontre sua resposta</p><h2>Como podemos ajudar?</h2></div>
         <label className="searchbox">
           <Search size={20} aria-hidden="true" />
           <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Pesquisar: urgência, anexo, status..." aria-label="Pesquisar no guia" />
