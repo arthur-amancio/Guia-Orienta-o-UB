@@ -7,7 +7,7 @@ import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/com
 
 type Mark = { x: number; y: number; w: number; h: number; text: string };
 type Screen = { title: string; file: string; width: number; height: number; intro: string; marks: Mark[] };
-export const screens: Record<string, Screen> = {
+export const screens = {
   inicio: { title: 'Escolha o caminho na página inicial', file: 'inicio', width: 1300, height: 350,
     intro: 'Entre em suporte.ub.edu.br com sua conta. Na área Acesso Rápido, escolha o cartão que corresponde ao que você precisa.',
     marks: [
@@ -38,6 +38,12 @@ export const screens: Record<string, Screen> = {
       { x: 3, y: 19, w: 47, h: 8, text: 'Digite uma palavra relacionada ao pedido na busca da lista, por exemplo “impressora” ou “email”.' },
       { x: 3, y: 50, w: 47, h: 24, text: 'Escolha a ação específica quando ela existir. A captura mostra Executar, Restaurar e Validar Backup como subcategorias de Backup. Clique na opção correspondente ao seu caso.' },
     ] },
+  urgencia: { title: 'Escolha a urgência conforme o impacto', file: 'urgencia', width: 980, height: 450,
+    intro: 'Ao abrir Urgência, o portal apresenta cinco níveis: Muito Baixa, Baixa, Média, Alta e Muito Alta. Escolha pelo impacto real da situação, não apenas pela pressa pessoal.',
+    marks: [
+      { x: 3, y: 0, w: 47, h: 21, text: 'Alta e Muito Alta ficam no fim da lista. Use esses níveis quando o impacto for realmente elevado, por exemplo quando muitas pessoas estiverem impedidas de trabalhar e não houver alternativa.' },
+      { x: 3, y: 25, w: 47, h: 16, text: 'Depois de escolher a urgência, continue preenchendo Categoria e os demais campos. Uma descrição clara ajuda a equipe a confirmar a prioridade correta.' },
+    ] },
   chamados: { title: 'Encontre um chamado já aberto', file: 'chamados', width: 1300, height: 420,
     intro: 'Acesse Chamados no menu superior ou Ver seus chamados na Home. A captura mostra a lista real sem resultados nesta conta e com o filtro atual.',
     marks: [
@@ -57,7 +63,9 @@ export const screens: Record<string, Screen> = {
       { x: 46, y: 4, w: 32, h: 8, text: 'Encontrar um item livre em um período específico: comece por este botão quando já souber quando precisará do equipamento.' },
       { x: 86, y: 24, w: 5, h: 8, text: 'Na linha do item desejado, clique no ícone de calendário para consultar a disponibilidade. Confira item, data e horário antes de confirmar qualquer reserva.' },
     ] },
-};
+} satisfies Record<string, Screen>;
+
+type ScreenName = keyof typeof screens;
 
 function Capture({ screen }: { screen: Screen }) {
   return <div className="capture" style={{ aspectRatio: `${screen.width}/${screen.height}` }}>
@@ -66,7 +74,7 @@ function Capture({ screen }: { screen: Screen }) {
   </div>;
 }
 
-export function PortalScreen({ name }: { name: string }) {
+export function PortalScreen({ name }: { name: ScreenName }) {
   const screen = screens[name];
   const [expanded, setExpanded] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -94,7 +102,7 @@ export function PortalScreen({ name }: { name: string }) {
 export function GuidedCarousel() {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
-  const names = ['inicio', 'campos', 'descricao'];
+  const names = ['inicio', 'campos', 'descricao'] as const satisfies readonly ScreenName[];
   useEffect(() => {
     if (!api) return;
     const select = () => setCurrent(api.selectedScrollSnap());

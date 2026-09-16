@@ -38,4 +38,6 @@ FAQ (`/front/helpdesk.faq.php`) tem Pesquisar, Navegar e busca. Reservas (`/fron
 
 Em 16/09/2026: `npm run build` passou; `npx oxlint app components/portal-guide.tsx` passou; `git diff --check` passou. Revisão visual feita em desktop e viewport móvel de 390 × 844: avanço do carrossel, modal nativo de ampliação, rolagem horizontal da captura ampliada e busca sem acento (`urgencia`) funcionaram. Console do navegador ficou sem erros após reabrir a prévia.
 
+Correção posterior em 16/09/2026: `app/page.tsx` já usava `<PortalScreen name="urgencia" />`, mas o registro `screens.urgencia` não havia sido incluído no commit. Isso causava erro 500 ao tentar ler `screen.title`. O registro foi restaurado usando a captura real `public/portal/urgencia.png`, e os nomes aceitos por `PortalScreen` agora são verificados pelo TypeScript. `npm run build`, `npx oxlint app components/portal-guide.tsx` e a abertura de `http://localhost:3000/` passaram após a correção.
+
 `npm run lint` completo ainda falha em componentes-base já existentes (`components/ui/*` e `hooks/use-mobile.ts`), fora do escopo desta entrega. Não atribuir esses erros às capturas novas; o lint restrito acima cobre `app/` e `components/portal-guide.tsx`.
