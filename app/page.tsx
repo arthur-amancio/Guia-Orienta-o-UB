@@ -6,17 +6,14 @@ import {
   ClipboardCheck, Download, ExternalLink, FileText, ListChecks, Search,
   ShieldCheck, TicketCheck, UserRoundCheck
 } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
-import {
-  Carousel,
-  type CarouselApi,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
+import { useMemo, useState } from 'react';
+import { GuidedCarousel, PortalScreen } from '@/components/portal-guide';
 
 const SUPPORT = 'https://suporte.ub.edu.br/Helpdesk';
+const normalizeSearch = (value: string) => value
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .toLocaleLowerCase('pt-BR');
 
 const topics = [
   { id: 'acesso', title: 'Conheça o portal', icon: BookOpen, terms: 'home acesso rápido catálogo chamados reservas faq' },
@@ -29,91 +26,6 @@ const topics = [
   { id: 'faq-reservas', title: 'FAQ e reservas', icon: CalendarDays, terms: 'artigos ajuda pesquisar reserva equipamento calendário' },
 ];
 
-const highlights = [
-  {
-    eyebrow: 'Seu ponto de partida',
-    title: 'Suporte sem complicação',
-    description: 'Descubra o caminho certo para registrar sua necessidade e agilizar o atendimento desde o primeiro contato.',
-    image: '/suporte-abrir-chamado.png',
-    alt: 'Colaboradora da universidade utilizando um computador no escritório',
-    href: '#abrir',
-    action: 'Aprender a abrir um chamado',
-  },
-  {
-    eyebrow: 'Do início à solução',
-    title: 'Acompanhe cada etapa',
-    description: 'Entenda os status, responda às solicitações da equipe e mantenha todo o histórico em um só lugar.',
-    image: '/suporte-acompanhar.png',
-    alt: 'Profissionais da universidade acompanhando um atendimento em um notebook',
-    href: '#acompanhar',
-    action: 'Ver como acompanhar',
-  },
-  {
-    eyebrow: 'Respostas mais rápidas',
-    title: 'Consulte antes de solicitar',
-    description: 'Pesquise orientações, confira exemplos e reúna as informações necessárias antes de enviar seu chamado.',
-    image: '/suporte-consultar-guia.png',
-    alt: 'Colaboradora consultando orientações em um notebook na biblioteca',
-    href: '#qualidade',
-    action: 'Preparar um bom chamado',
-  },
-];
-
-function HeroCarousel() {
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    if (!api) return;
-    const updateCurrent = () => setCurrent(api.selectedScrollSnap());
-    updateCurrent();
-    api.on('select', updateCurrent);
-    return () => { api.off('select', updateCurrent); };
-  }, [api]);
-
-  return (
-    <section className="hero" aria-label="Destaques do guia">
-      <Carousel setApi={setApi} opts={{ loop: true }} className="hero-carousel">
-        <CarouselContent className="hero-track">
-          {highlights.map((slide, index) => (
-            <CarouselItem key={slide.title} className="hero-slide">
-              <div className="hero-copy">
-                <p className="eyebrow">{slide.eyebrow}</p>
-                <h1>{slide.title}</h1>
-                <p className="hero-description">{slide.description}</p>
-                <div className="hero-actions">
-                  <a className="hero-primary" href={slide.href}>{slide.action} <ArrowRight size={17} /></a>
-                  <a className="hero-secondary" href={SUPPORT} target="_blank" rel="noreferrer">Abrir o Suporte <ExternalLink size={16} /></a>
-                </div>
-              </div>
-              <div className="hero-image" aria-hidden={current !== index}>
-                <Image src={slide.image} alt={slide.alt} fill priority={index === 0} sizes="(max-width: 820px) 100vw, 54vw" />
-                <span className="hero-image-shade" />
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <div className="hero-navigation">
-          <CarouselPrevious className="hero-arrow hero-arrow-prev" aria-label="Voltar destaque" />
-          <div className="hero-dots" role="tablist" aria-label="Escolher destaque">
-            {highlights.map((slide, index) => (
-              <button
-                key={slide.title}
-                type="button"
-                role="tab"
-                aria-selected={current === index}
-                aria-label={`Mostrar destaque ${index + 1}: ${slide.title}`}
-                className={current === index ? 'is-active' : ''}
-                onClick={() => api?.scrollTo(index)}
-              />
-            ))}
-          </div>
-          <CarouselNext className="hero-arrow hero-arrow-next" aria-label="Avançar destaque" />
-        </div>
-      </Carousel>
-    </section>
-  );
-}
 
 function Steps({ items }: { items: string[] }) {
   return <ol className="steps">{items.map((item, i) => <li key={item}><span>{i + 1}</span><p>{item}</p></li>)}</ol>;
@@ -121,8 +33,8 @@ function Steps({ items }: { items: string[] }) {
 
 export default function Home() {
   const [query, setQuery] = useState('');
-  const normalized = query.trim().toLocaleLowerCase('pt-BR');
-  const matches = useMemo(() => normalized ? topics.filter(t => `${t.title} ${t.terms}`.toLocaleLowerCase('pt-BR').includes(normalized)) : topics, [normalized]);
+  const normalized = normalizeSearch(query.trim());
+  const matches = useMemo(() => normalized ? topics.filter(t => normalizeSearch(`${t.title} ${t.terms}`).includes(normalized)) : topics, [normalized]);
 
   return (
     <main>
@@ -132,13 +44,13 @@ export default function Home() {
           <span><strong>Guia do Colaborador</strong><small>Universidade Brasil</small></span>
         </a>
         <nav aria-label="Ações principais">
-          <a className="download-link" href="/guia-suporte-ub.pdf" download><Download size={17} /> Baixar PDF</a>
+          <button className="download-link" type="button" onClick={() => window.print()}><Download size={17} /> Imprimir guia</button>
           <a className="support-link" href={SUPPORT} target="_blank" rel="noreferrer">Abrir o Suporte <ArrowRight size={17} /></a>
         </nav>
       </header>
 
       <div id="inicio">
-        <HeroCarousel />
+        <GuidedCarousel />
       </div>
 
       <section className="guide-search" aria-label="Pesquisa no guia">
@@ -160,7 +72,7 @@ export default function Home() {
         <aside className="side-nav">
           <p>Neste guia</p>
           {topics.map(({ id, title }) => <a key={id} href={`#${id}`}>{title}</a>)}
-          <a className="side-pdf" href="/guia-suporte-ub.pdf" download><Download size={16} /> Versão para imprimir</a>
+          <button className="side-pdf" type="button" onClick={() => window.print()}><Download size={16} /> Imprimir / salvar PDF</button>
         </aside>
 
         <article className="guide">
@@ -218,17 +130,19 @@ export default function Home() {
               ].map(([name, desc]) => <div key={name}><strong>{name}</strong><p>{desc}</p></div>)}
             </div>
             <div className="urgency"><h3>Entendendo a urgência</h3><div><span><b>Muito baixa / Baixa</b>Baixo impacto; é possível aguardar.</span><span><b>Média</b>Impacto normal, limitado ou com alternativa.</span><span><b>Alta / Muito alta</b>Bloqueio relevante ou impacto amplo.</span></div></div>
+            <PortalScreen name="urgencia" />
           </section>
 
           <section id="categorias" className="guide-section">
             <p className="section-number">05</p><h2>Como escolher a categoria</h2>
             <p>Escolha uma subcategoria sempre que ela representar melhor o assunto. As opções podem ser atualizadas pela administração.</p>
+            <PortalScreen name="categoria" />
             <div className="category-grid">
               {[
                 ['Backup', 'Executar, restaurar e validar'], ['E-mail corporativo', 'Alteração, criação, bloqueio e senha'],
                 ['Impressora', 'Scanner, falha, cota e toner'], ['Internet e Wi-Fi', 'Queda ou falha de conexão'],
                 ['Rede', 'Pastas, mapeamento e permissões'], ['Software', 'Instalação de programas'],
-                ['Usuário de rede', 'Criação, bloqueio, desbloqueio e senha'], ['Outros', 'Câmeras, certificado, RM, TOTVS e instruções'],
+                ['Usuário de rede', 'Criação, bloqueio, desbloqueio e senha'], ['Demais categorias', 'Câmeras, Certificado Digital, RM, TOTVS e Instruções de Trabalho'],
               ].map(([name, desc]) => <div key={name}><CheckCircle2 size={18} /><span><strong>{name}</strong><small>{desc}</small></span></div>)}
             </div>
             <p className="tip"><strong>Não encontrou a categoria exata?</strong> Escolha a mais próxima e explique a situação com clareza na descrição.</p>
@@ -245,6 +159,8 @@ export default function Home() {
 
           <section id="acompanhar" className="guide-section">
             <p className="section-number">07</p><h2>Como acompanhar seus chamados</h2>
+            <PortalScreen name="chamados" />
+            <p>A tela interna varia conforme o atendimento e suas permissões. Ao encontrar um chamado, abra-o para consultar o histórico. As orientações abaixo são gerais; os botões internos não estão ilustrados porque a consulta usada para este guia não retornou chamados.</p>
             <Steps items={[
               'Abra o menu “Chamados” ou o atalho “Ver seus chamados”.',
               'Localize o número, título, status e datas do atendimento.',
@@ -258,6 +174,8 @@ export default function Home() {
 
           <section id="faq-reservas" className="guide-section">
             <p className="section-number">08</p><h2>FAQ e reservas</h2>
+            <PortalScreen name="faq" />
+            <PortalScreen name="reservas" />
             <div className="two-columns">
               <div><BookOpen /><h3>Consultar a FAQ</h3><p>Pesquise por palavras-chave ou navegue pelas categorias. Se o artigo não resolver, informe no chamado o que já foi tentado.</p></div>
               <div><CalendarDays /><h3>Reservar um item</h3><p>Consulte o item, a localização e o calendário. Selecione o período e revise tudo antes de confirmar. A disponibilidade varia por unidade.</p></div>
