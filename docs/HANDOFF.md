@@ -41,3 +41,13 @@ Em 16/09/2026: `npm run build` passou; `npx oxlint app components/portal-guide.t
 Correção posterior em 16/09/2026: `app/page.tsx` já usava `<PortalScreen name="urgencia" />`, mas o registro `screens.urgencia` não havia sido incluído no commit. Isso causava erro 500 ao tentar ler `screen.title`. O registro foi restaurado usando a captura real `public/portal/urgencia.png`, e os nomes aceitos por `PortalScreen` agora são verificados pelo TypeScript. `npm run build`, `npx oxlint app components/portal-guide.tsx` e a abertura de `http://localhost:3000/` passaram após a correção.
 
 `npm run lint` completo ainda falha em componentes-base já existentes (`components/ui/*` e `hooks/use-mobile.ts`), fora do escopo desta entrega. Não atribuir esses erros às capturas novas; o lint restrito acima cobre `app/` e `components/portal-guide.tsx`.
+
+## W1 — fundação do tutorial de seis etapas
+
+Em 21/09/2026 foi criada a fonte única dos seis passos em `content/support-tutorial.ts`, com tipos estritos em `types/tutorial.ts`. O modelo aceita múltiplas capturas por etapa, hotspots percentuais, notas e classificação explícita `observed | guidance`. FAQ e Reservas não integram esse array.
+
+`components/tutorial/annotated-capture.tsx` concentra imagem real, hotspots, legenda e modal. O fluxo atual em `components/portal-guide.tsx` foi mantido visível, mas passou a reutilizar esse componente. A fundação `SupportTutorial` e seu stepper já derivam títulos, contador, conteúdo, capturas e navegação do array único, porém ainda não substituem o carrossel atual.
+
+A prévia supervisionada exigiu trocar o script de desenvolvimento legado de `vinext dev` para `vite` e permitir `terminal.local` no servidor Vite; o build de produção permaneceu inalterado. Build, lint restrito ao código do produto, `git diff --check`, navegação do carrossel e modal passaram. O lint amplo continua acusando somente problemas preexistentes em `components/ui/*`, que não foi alterado.
+
+Limitações preservadas para W2: nenhum asset foi criado ou modificado; `urgencia.png` continua mostrando apenas o final da lista; `chamados.png` continua sem detalhe interno; `descricao-anexos.png` é reutilizada nos passos 4 e 5; `reservas.png` e `scripts/prepare-captures.mjs` não foram corrigidos. Próximo passo: tratar exclusivamente os assets reais e sanitizados do W2 antes de ativar o novo tutorial.

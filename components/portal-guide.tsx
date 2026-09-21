@@ -1,21 +1,26 @@
 'use client';
 
-import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, ZoomIn } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
+import { CaptureViewer } from '@/components/tutorial/annotated-capture';
+import type {
+  EvidenceKind,
+  PortalCaptureSource,
+  TutorialCapture,
+} from '@/types/tutorial';
 
-type Mark = { x: number; y: number; w: number; h: number; text: string };
-type Screen = { title: string; file: string; width: number; height: number; intro: string; marks: Mark[] };
+type Mark = { x: number; y: number; w: number; h: number; text: string; evidence?: EvidenceKind };
+type Screen = { title: string; file: PortalCaptureSource; width: number; height: number; intro: string; marks: Mark[] };
 export const screens = {
-  inicio: { title: 'Escolha o caminho na página inicial', file: 'inicio', width: 1300, height: 350,
+  inicio: { title: 'Escolha o caminho na página inicial', file: '/portal/inicio.png', width: 1300, height: 350,
     intro: 'Entre em suporte.ub.edu.br com sua conta. Na área Acesso Rápido, escolha o cartão que corresponde ao que você precisa.',
     marks: [
       { x: 35, y: 22, w: 31, h: 30, text: 'Reportar um problema: clique aqui quando algo que funcionava apresentar falha, como internet indisponível ou erro de impressão.' },
       { x: 68, y: 22, w: 31, h: 30, text: 'Solicitar um serviço: clique aqui para pedir uma instalação, criação de acesso ou alteração.' },
       { x: 35, y: 57, w: 31, h: 35, text: 'Ver seus chamados: consulte os pedidos que você já criou. Para o mesmo problema, acompanhe o chamado existente.' },
     ] },
-  campos: { title: 'Identifique o impacto e o local', file: 'campos', width: 980, height: 515,
+  campos: { title: 'Identifique o impacto e o local', file: '/portal/campos.png', width: 980, height: 515,
     intro: 'Este é o formulário real “Reportar um problema”. Clique nas listas para escolher os valores. “Solicitar um serviço” apresenta os mesmos campos.',
     marks: [
       { x: 3, y: 22, w: 47, h: 8, text: 'Urgência: escolha a opção que representa o impacto real. Considere quantas pessoas foram afetadas e se existe uma alternativa para continuar trabalhando.' },
@@ -24,7 +29,7 @@ export const screens = {
       { x: 3, y: 73, w: 47, h: 8, text: 'Observadores: inclua somente quem precisa acompanhar o atendimento. Confira a pessoa selecionada antes de continuar.' },
       { x: 3, y: 90, w: 47, h: 8, text: 'Localização: indique a unidade ou local da ocorrência. Acrescente setor e sala na descrição, quando necessário.' },
     ] },
-  descricao: { title: 'Descreva, anexe e revise antes de enviar', file: 'descricao-anexos', width: 980, height: 565,
+  descricao: { title: 'Descreva, anexe e revise antes de enviar', file: '/portal/descricao-anexos.png', width: 980, height: 565,
     intro: 'Role o formulário para encontrar estes campos. O asterisco identifica um campo obrigatório; nesta captura ele aparece em Descrição.',
     marks: [
       { x: 3, y: 7, w: 94, h: 7, text: 'Título: escreva o sistema ou equipamento e a dificuldade. Exemplo fictício: “Impressora da secretaria não imprime PDF”.' },
@@ -32,32 +37,32 @@ export const screens = {
       { x: 31, y: 68, w: 37, h: 9, text: 'Escolher arquivo: adicione uma captura ou documento útil. O portal informa 2 MB no máximo. Revise o conteúdo e retire dados pessoais, senhas e informações confidenciais.' },
       { x: 89, y: 88, w: 10, h: 7, text: 'Enviar: após revisar tudo, clique uma vez. Aguarde o retorno do portal. Se aparecer um aviso de campo obrigatório, corrija-o; não considere o chamado aberto antes da confirmação.' },
     ] },
-  categoria: { title: 'Pesquise a categoria e escolha a subcategoria', file: 'categoria', width: 980, height: 430,
+  categoria: { title: 'Pesquise a categoria e escolha a subcategoria', file: '/portal/categoria.png', width: 980, height: 430,
     intro: 'Ao abrir Categoria, aparece uma busca dentro da própria lista. Os itens recuados pertencem à categoria logo acima.',
     marks: [
       { x: 3, y: 19, w: 47, h: 8, text: 'Digite uma palavra relacionada ao pedido na busca da lista, por exemplo “impressora” ou “email”.' },
       { x: 3, y: 50, w: 47, h: 24, text: 'Escolha a ação específica quando ela existir. A captura mostra Executar, Restaurar e Validar Backup como subcategorias de Backup. Clique na opção correspondente ao seu caso.' },
     ] },
-  urgencia: { title: 'Escolha a urgência conforme o impacto', file: 'urgencia', width: 980, height: 450,
+  urgencia: { title: 'Escolha a urgência conforme o impacto', file: '/portal/urgencia.png', width: 980, height: 450,
     intro: 'Ao abrir Urgência, o portal apresenta cinco níveis: Muito Baixa, Baixa, Média, Alta e Muito Alta. Escolha pelo impacto real da situação, não apenas pela pressa pessoal.',
     marks: [
       { x: 3, y: 0, w: 47, h: 21, text: 'Alta e Muito Alta ficam no fim da lista. Use esses níveis quando o impacto for realmente elevado, por exemplo quando muitas pessoas estiverem impedidas de trabalhar e não houver alternativa.' },
       { x: 3, y: 25, w: 47, h: 16, text: 'Depois de escolher a urgência, continue preenchendo Categoria e os demais campos. Uma descrição clara ajuda a equipe a confirmar a prioridade correta.' },
     ] },
-  chamados: { title: 'Encontre um chamado já aberto', file: 'chamados', width: 1300, height: 420,
+  chamados: { title: 'Encontre um chamado já aberto', file: '/portal/chamados.png', width: 1300, height: 420,
     intro: 'Acesse Chamados no menu superior ou Ver seus chamados na Home. A captura mostra a lista real sem resultados nesta conta e com o filtro atual.',
     marks: [
       { x: 4, y: 4, w: 12, h: 7, text: 'Filtrado por Status: confira os filtros quando não encontrar um chamado. Um filtro pode esconder atendimentos solucionados ou fechados.' },
       { x: 17, y: 4, w: 18, h: 7, text: 'Ordenado por Última atualização: use a ordenação para localizar os atendimentos mais recentes.' },
       { x: 1, y: 14, w: 97, h: 14, text: 'Nenhum resultado encontrado: não há itens para exibir com a consulta atual. Confira os filtros e a conta utilizada. Isso, sozinho, não confirma que um envio anterior falhou.' },
     ] },
-  faq: { title: 'Procure uma orientação na FAQ', file: 'faq', width: 1300, height: 240,
+  faq: { title: 'Procure uma orientação na FAQ', file: '/portal/faq.png', width: 1300, height: 240,
     intro: 'Abra FAQ no menu superior ou Procure artigos de ajuda na Home.',
     marks: [
       { x: 29, y: 21, w: 35, h: 17, text: 'Digite uma palavra do assunto, como o nome do sistema em que você precisa de ajuda.' },
       { x: 64, y: 21, w: 8, h: 17, text: 'Clique em Pesquisar e abra um artigo relacionado nos resultados. Você também pode usar a aba Navegar para explorar as categorias.' },
     ] },
-  reservas: { title: 'Consulte os itens e o calendário', file: 'reservas', width: 1290, height: 520,
+  reservas: { title: 'Consulte os itens e o calendário', file: '/portal/reservas.png', width: 1290, height: 520,
     intro: 'Abra Reservas no menu superior ou Fazer uma reserva na Home. Os itens disponíveis dependem da sua unidade e do seu acesso.',
     marks: [
       { x: 46, y: 4, w: 32, h: 8, text: 'Encontrar um item livre em um período específico: comece por este botão quando já souber quando precisará do equipamento.' },
@@ -67,36 +72,30 @@ export const screens = {
 
 type ScreenName = keyof typeof screens;
 
-function Capture({ screen }: { screen: Screen }) {
-  return <div className="capture" style={{ aspectRatio: `${screen.width}/${screen.height}` }}>
-    <Image src={`/portal/${screen.file}.png`} alt={`Captura real do portal UB: ${screen.title}`} width={screen.width} height={screen.height} sizes="(max-width: 800px) 95vw, 1000px" />
-    {screen.marks.map((mark, i) => <span key={mark.text} className="capture-mark" aria-hidden="true" style={{ left: `${mark.x}%`, top: `${mark.y}%`, width: `${mark.w}%`, height: `${mark.h}%` }}><b>{i + 1}</b></span>)}
-  </div>;
+function toTutorialCapture(name: ScreenName): TutorialCapture {
+  const screen = screens[name];
+  const marks: readonly Mark[] = screen.marks;
+  return {
+    id: name,
+    title: screen.title,
+    description: screen.intro,
+    src: screen.file,
+    width: screen.width,
+    height: screen.height,
+    hotspots: marks.map((mark, index) => ({
+      id: index + 1,
+      x: mark.x,
+      y: mark.y,
+      width: mark.w,
+      height: mark.h,
+      legend: mark.text,
+      evidence: mark.evidence ?? 'guidance',
+    })),
+  };
 }
 
 export function PortalScreen({ name }: { name: ScreenName }) {
-  const screen = screens[name];
-  const [expanded, setExpanded] = useState(false);
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (expanded && !dialog.open) dialog.showModal();
-    if (!expanded && dialog.open) dialog.close();
-  }, [expanded]);
-  return <figure className="portal-screen">
-    <figcaption><h3>{screen.title}</h3><p>{screen.intro}</p></figcaption>
-    <Capture screen={screen} />
-    <button type="button" className="zoom-button" onClick={() => setExpanded(true)}><ZoomIn size={18} /> Ampliar imagem: {screen.title}</button>
-    <dialog ref={dialogRef} className="capture-dialog" aria-labelledby={`capture-${name}-title`} onClose={() => setExpanded(false)}>
-        <h2 id={`capture-${name}-title`}>{screen.title}</h2>
-        <p>Captura real com marcações numeradas. No celular, deslize a imagem ampliada para ver todos os detalhes.</p>
-        <button type="button" className="zoom-button" onClick={() => setExpanded(false)}>Fechar imagem</button>
-        <div className="capture-scroll"><Capture screen={screen} /></div>
-        <ol className="capture-legend">{screen.marks.map((mark, i) => <li key={mark.text}><b>{i + 1}</b><span>{mark.text}</span></li>)}</ol>
-    </dialog>
-    <ol className="capture-legend">{screen.marks.map((mark, i) => <li key={mark.text}><b>{i + 1}</b><span>{mark.text}</span></li>)}</ol>
-  </figure>;
+  return <CaptureViewer capture={toTutorialCapture(name)} />;
 }
 
 export function GuidedCarousel() {
