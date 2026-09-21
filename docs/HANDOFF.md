@@ -61,3 +61,11 @@ O inventário técnico e visual está em `docs/W2-ASSET-AUDIT.md`. Os oito asset
 `scripts/prepare-captures.mjs` agora reproduz esse recorte a partir de `campos.png`, e `sharp` 0.34.5 foi declarado diretamente como dependência de desenvolvimento. Permanecem pendentes uma captura real com a lista completa de Urgência e uma captura autorizada do detalhe de chamado. FAQ, Reservas, PDF legado e o fluxo visual atual não foram alterados.
 
 Validação final do W2: `npm ci`, `npm run build`, lint restrito aos arquivos de código alterados e `git diff --check` passaram. A reprodução isolada do novo crop gerou arquivo idêntico byte a byte, e dimensões, formatos, privacidade, legibilidade e hotspots foram conferidos visualmente para todos os assets do tutorial.
+
+## W3A — ativação funcional do tutorial
+
+Em 21/09/2026, `app/page.tsx` passou a montar `SupportTutorial` no lugar do `GuidedCarousel`. O guia longo continua abaixo da página para remoção somente no W4, e a implementação antiga permanece no código como etapa de migração, sem um segundo tutorial principal visível.
+
+Os seis passos continuam derivados exclusivamente de `supportTutorialSteps`. Stepper, Anterior, Próximo, seleção direta, duas capturas do passo 3, hotspots, legendas, modal e classificação de evidência foram preservados. No sexto passo, o Próximo desabilitado foi substituído por `Abrir Portal de Suporte` em nova aba.
+
+Build, lint restrito e `git diff --check` passaram. A inspeção em navegador desktop e 390 × 844 ficou bloqueada no ambiente de execução porque um servidor externo ao checkout permaneceu ocupando a única porta da prévia mesmo após a parada supervisionada; nenhum processo desconhecido foi encerrado e nenhuma configuração específica do ambiente foi reintroduzida. A validação visual e do console deve ser repetida no W3B ou no primeiro ambiente de preview disponível.

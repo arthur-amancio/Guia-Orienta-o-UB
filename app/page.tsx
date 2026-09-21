@@ -7,7 +7,8 @@ import {
   ShieldCheck, TicketCheck, UserRoundCheck
 } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { GuidedCarousel, PortalScreen } from '@/components/portal-guide';
+import { PortalScreen } from '@/components/portal-guide';
+import { SupportTutorial } from '@/components/tutorial/support-tutorial';
 
 const SUPPORT = 'https://suporte.ub.edu.br/Helpdesk';
 const normalizeSearch = (value: string) => value
@@ -50,7 +51,7 @@ export default function Home() {
       </header>
 
       <div id="inicio">
-        <GuidedCarousel />
+        <SupportTutorial />
       </div>
 
       <section className="guide-search" aria-label="Pesquisa no guia">

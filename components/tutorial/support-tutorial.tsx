@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import { supportTutorialSteps } from '@/content/support-tutorial';
 import type { EvidenceKind, TutorialStep } from '@/types/tutorial';
@@ -12,6 +12,8 @@ const evidenceLabels: Record<EvidenceKind, string> = {
   observed: 'Observado no portal',
   guidance: 'Orientação geral',
 };
+
+const SUPPORT_PORTAL_URL = 'https://suporte.ub.edu.br/Helpdesk';
 
 export function SupportTutorial() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -82,13 +84,18 @@ export function SupportTutorial() {
         >
           <ArrowLeft size={18} /> Anterior
         </button>
-        <button
-          type="button"
-          onClick={() => selectStep(currentIndex + 1)}
-          disabled={isLastStep}
-        >
-          Próximo <ArrowRight size={18} />
-        </button>
+        {isLastStep ? (
+          <a href={SUPPORT_PORTAL_URL} target="_blank" rel="noreferrer">
+            Abrir Portal de Suporte <ExternalLink size={18} />
+          </a>
+        ) : (
+          <button
+            type="button"
+            onClick={() => selectStep(currentIndex + 1)}
+          >
+            Próximo <ArrowRight size={18} />
+          </button>
+        )}
       </div>
     </section>
   );
