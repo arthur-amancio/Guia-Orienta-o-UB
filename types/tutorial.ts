@@ -5,6 +5,7 @@ export type EvidenceKind = (typeof EVIDENCE_KINDS)[number];
 export type PortalCaptureSource =
   | '/portal/inicio.png'
   | '/portal/campos.png'
+  | '/portal/campos-principais.png'
   | '/portal/urgencia.png'
   | '/portal/categoria.png'
   | '/portal/descricao-anexos.png'

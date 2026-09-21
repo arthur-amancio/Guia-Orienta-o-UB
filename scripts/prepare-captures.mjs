@@ -18,3 +18,9 @@ for (const [input, output, left, top, width, height] of crops) {
   await sharp(`${source}/portal-${input}.png`).extract({ left, top, width, height })
     .png().toFile(`public/portal/${output}.png`);
 }
+
+// Derive the focused step-2 view only from the already-sanitized campos crop.
+await sharp('public/portal/campos.png')
+  .extract({ left: 8, top: 248, width: 500, height: 267 })
+  .png()
+  .toFile('public/portal/campos-principais.png');

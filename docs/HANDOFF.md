@@ -51,3 +51,13 @@ Em 21/09/2026 foi criada a fonte única dos seis passos em `content/support-tuto
 A prévia supervisionada exigiu trocar o script de desenvolvimento legado de `vinext dev` para `vite` e permitir `terminal.local` no servidor Vite; o build de produção permaneceu inalterado. Build, lint restrito ao código do produto, `git diff --check`, navegação do carrossel e modal passaram. O lint amplo continua acusando somente problemas preexistentes em `components/ui/*`, que não foi alterado.
 
 Limitações preservadas para W2: nenhum asset foi criado ou modificado; `urgencia.png` continua mostrando apenas o final da lista; `chamados.png` continua sem detalhe interno; `descricao-anexos.png` é reutilizada nos passos 4 e 5; `reservas.png` e `scripts/prepare-captures.mjs` não foram corrigidos. Próximo passo: tratar exclusivamente os assets reais e sanitizados do W2 antes de ativar o novo tutorial.
+
+## W2 — preparação dos assets reais
+
+Em 21/09/2026, a configuração temporária de preview do W1 foi removida: `npm run dev` voltou a usar `vinext dev`, sem `host` ou `allowedHosts` específicos do ambiente Work. A nota `unverified-submit-confirmation` passou de `observed` para `guidance`.
+
+O inventário técnico e visual está em `docs/W2-ASSET-AUDIT.md`. Os oito assets preexistentes foram preservados byte a byte. Foi criado somente `public/portal/campos-principais.png` (500 × 267), crop real e sanitizado de `campos.png` para destacar Dispositivos, Observadores e Localização. O passo 2 usa o novo recorte com dimensões e hotspots recalculados; o carrossel atual continua usando o asset original.
+
+`scripts/prepare-captures.mjs` agora reproduz esse recorte a partir de `campos.png`, e `sharp` 0.34.5 foi declarado diretamente como dependência de desenvolvimento. Permanecem pendentes uma captura real com a lista completa de Urgência e uma captura autorizada do detalhe de chamado. FAQ, Reservas, PDF legado e o fluxo visual atual não foram alterados.
+
+Validação final do W2: `npm ci`, `npm run build`, lint restrito aos arquivos de código alterados e `git diff --check` passaram. A reprodução isolada do novo crop gerou arquivo idêntico byte a byte, e dimensões, formatos, privacidade, legibilidade e hotspots foram conferidos visualmente para todos os assets do tutorial.
