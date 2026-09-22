@@ -10,15 +10,26 @@ import type {
 } from '@/types/tutorial';
 
 const evidenceLabels: Record<EvidenceKind, string> = {
-  observed: 'Observado no portal',
-  guidance: 'Orientação geral',
+  observed: 'Observado',
+  guidance: 'Orientação',
 };
 
-function CaptureImage({ capture }: { capture: TutorialCapture }) {
+function CaptureImage({
+  capture,
+  expanded = false,
+}: {
+  capture: TutorialCapture;
+  expanded?: boolean;
+}) {
   return (
     <div
-      className="capture"
-      style={{ aspectRatio: `${capture.width}/${capture.height}` }}
+      className={`capture${expanded ? ' capture-expanded' : ''}`}
+      style={{
+        aspectRatio: `${capture.width}/${capture.height}`,
+        ...(expanded
+          ? { width: `${capture.width}px`, maxWidth: 'none' }
+          : { maxWidth: `${capture.width}px`, marginInline: 'auto' }),
+      }}
     >
       <Image
         src={capture.src}
@@ -58,13 +69,14 @@ function CaptureLegend({
       {hotspots.map((hotspot) => (
         <li key={hotspot.id}>
           <b>{hotspot.id}</b>
-          <span>
+          <span className="capture-legend-copy">
+            <strong>{hotspot.label}</strong>
+            <span>{hotspot.description}</span>
             {showEvidence && (
               <small className={`evidence-label is-${hotspot.evidence}`}>
                 {evidenceLabels[hotspot.evidence]}
               </small>
             )}
-            {hotspot.legend}
           </span>
         </li>
       ))}
@@ -132,7 +144,9 @@ export function CaptureViewer({
           Fechar imagem
         </button>
         <div className="capture-scroll">
-          <CaptureImage capture={capture} />
+          <div className="capture-stage">
+            <CaptureImage capture={capture} expanded />
+          </div>
         </div>
         <CaptureLegend
           hotspots={capture.hotspots}

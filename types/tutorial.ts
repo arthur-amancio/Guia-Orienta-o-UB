@@ -4,14 +4,10 @@ export type EvidenceKind = (typeof EVIDENCE_KINDS)[number];
 
 export type PortalCaptureSource =
   | '/portal/inicio.png'
-  | '/portal/campos.png'
-  | '/portal/campos-principais.png'
   | '/portal/urgencia.png'
-  | '/portal/categoria.png'
+  | '/portal/categoria-pesquisa.png'
   | '/portal/descricao-anexos.png'
-  | '/portal/chamados.png'
-  | '/portal/faq.png'
-  | '/portal/reservas.png';
+  | '/portal/chamados.png';
 
 export type TutorialHotspot = {
   id: number;
@@ -19,7 +15,8 @@ export type TutorialHotspot = {
   y: number;
   width: number;
   height: number;
-  legend: string;
+  label: string;
+  description: string;
   evidence: EvidenceKind;
 };
 

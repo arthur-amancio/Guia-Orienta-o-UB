@@ -1,6 +1,6 @@
 .tutorial {
   min-width: 0;
-  padding: 44px max(20px, calc((100vw - 1180px) / 2)) 52px;
+  padding: 40px max(20px, calc((100vw - 1180px) / 2)) 48px;
   background: #edf2f7;
 }
 
@@ -28,7 +28,7 @@
 
 .desktopStepper {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 0;
   margin: 0;
   padding: 0;
@@ -115,6 +115,7 @@
   border-color: var(--primary);
   background: var(--primary);
   color: white;
+  box-shadow: inset 0 -4px 0 var(--accent);
 }
 
 .desktopStepper button[aria-current='step'] .stepNumber {
@@ -130,9 +131,12 @@
 }
 
 .counter {
-  margin: 16px 0 8px;
-  color: #42566c;
-  font-size: 0.9rem;
+  margin: 22px 0 6px;
+  color: #96640f;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .liveStatus {
@@ -150,14 +154,13 @@
 .evidenceKey {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px 16px;
+  justify-content: flex-end;
+  gap: 4px 8px;
   max-width: 880px;
-  margin: 0 0 22px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid #ccd7e2;
+  margin: 18px 0 0 auto;
   color: #59697b;
-  font-size: 0.78rem;
-  line-height: 1.5;
+  font-size: 0.72rem;
+  line-height: 1.4;
 }
 
 .evidenceKey > strong,
@@ -174,25 +177,27 @@
   margin: 0 0 10px;
   scroll-margin-top: 104px;
   color: var(--primary);
-  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  line-height: 1.14;
 }
 
 .step > p {
+  margin: 0;
   max-width: 780px;
   color: #44546a;
+  font-size: 1.02rem;
   line-height: 1.65;
 }
 
 .checklist {
   display: grid;
-  grid-template-columns: minmax(150px, 0.35fr) minmax(0, 1fr);
-  gap: 16px 24px;
+  grid-template-columns: minmax(155px, 0.3fr) minmax(0, 1fr);
+  gap: 12px 22px;
   max-width: 920px;
   margin-top: 20px;
-  padding: 18px;
-  border: 1px solid #d2dde7;
-  border-radius: 10px;
-  background: white;
+  padding: 16px 18px;
+  border-left: 4px solid var(--primary-2);
+  background: #e3edf6;
 }
 
 .checklist h3 {
@@ -229,17 +234,11 @@
   border-radius: 50%;
 }
 
-.captureSetIntro {
-  margin-top: 22px;
-  font-size: 0.88rem;
-  font-weight: 700;
-}
-
 .captures {
   min-width: 0;
   display: grid;
-  gap: 26px;
-  margin-top: 22px;
+  gap: 22px;
+  margin-top: 18px;
 }
 
 .captureGroup {
@@ -250,32 +249,24 @@
   margin: 0;
 }
 
-.capturePart {
-  width: max-content;
-  margin: 0 0 8px;
-  color: #59697b;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
 .notes {
   display: grid;
-  gap: 10px;
-  margin: 20px 0 0;
+  gap: 8px;
+  max-width: 920px;
+  margin: 16px 0 0;
   padding: 0;
   list-style: none;
 }
 
 .notes li {
   display: grid;
-  gap: 5px;
-  padding: 14px 16px;
-  border-left: 4px solid var(--primary);
-  background: white;
+  gap: 4px;
+  padding: 12px 14px;
+  border-left: 4px solid var(--accent);
+  background: #fff8e8;
   color: #44546a;
-  line-height: 1.55;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 .navigation {
@@ -373,8 +364,8 @@
   }
 
   .evidenceKey {
-    margin-top: 10px;
-    margin-bottom: 18px;
+    justify-content: flex-start;
+    margin-top: 16px;
   }
 
   .checklist {

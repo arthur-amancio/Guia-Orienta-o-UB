@@ -3,7 +3,10 @@
 import sharp from 'sharp';
 import { mkdir } from 'node:fs/promises';
 const source = process.argv[2];
-if (!source) throw new Error('Pass the local directory containing reviewed portal-*.png captures.');
+if (!source)
+  throw new Error(
+    'Pass the local directory containing reviewed portal-*.png captures.',
+  );
 await mkdir('public/portal', { recursive: true });
 const crops = [
   ['home', 'inicio', 110, 550, 1300, 350],
@@ -15,12 +18,14 @@ const crops = [
   ['faq', 'faq', 115, 95, 1300, 240],
 ];
 for (const [input, output, left, top, width, height] of crops) {
-  await sharp(`${source}/portal-${input}.png`).extract({ left, top, width, height })
-    .png().toFile(`public/portal/${output}.png`);
+  await sharp(`${source}/portal-${input}.png`)
+    .extract({ left, top, width, height })
+    .png()
+    .toFile(`public/portal/${output}.png`);
 }
 
-// Derive the focused step-2 view only from the already-sanitized campos crop.
-await sharp('public/portal/campos.png')
-  .extract({ left: 8, top: 248, width: 500, height: 267 })
+// Focus the category dropdown using only pixels from the sanitized real capture.
+await sharp('public/portal/categoria.png')
+  .extract({ left: 8, top: 0, width: 500, height: 350 })
   .png()
-  .toFile('public/portal/campos-principais.png');
+  .toFile('public/portal/categoria-pesquisa.png');

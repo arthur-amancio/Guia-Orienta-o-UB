@@ -5,14 +5,12 @@ export const supportTutorialSteps = [
     id: 'choose-request-type',
     shortTitle: 'Escolher',
     title: 'Escolha o tipo de atendimento',
-    description:
-      'Comece pela opção que representa o que você precisa: corrigir uma falha ou solicitar uma nova entrega ou alteração.',
+    description: 'Escolha o caminho que corresponde ao que você precisa.',
     captures: [
       {
         id: 'home-request-options',
-        title: 'Escolha o caminho na página inicial',
-        description:
-          'Na área Acesso Rápido, escolha Reportar um problema ou Solicitar um serviço.',
+        title: 'Na página inicial',
+        description: 'Use uma das duas opções destacadas.',
         src: '/portal/inicio.png',
         width: 1300,
         height: 350,
@@ -23,9 +21,9 @@ export const supportTutorialSteps = [
             y: 22,
             width: 31,
             height: 30,
-            legend:
-              'Reportar um problema: opção observada para pedir suporte quando algo apresenta uma falha.',
-            evidence: 'observed',
+            label: 'Reportar um problema',
+            description: 'Use quando algo que funcionava apresentou falha.',
+            evidence: 'guidance',
           },
           {
             id: 2,
@@ -33,66 +31,9 @@ export const supportTutorialSteps = [
             y: 22,
             width: 31,
             height: 30,
-            legend:
-              'Solicitar um serviço: opção observada para pedir um serviço à equipe de suporte.',
-            evidence: 'observed',
-          },
-        ],
-      },
-    ],
-    notes: [
-      {
-        id: 'request-type-rule',
-        text: 'Use problema para uma falha em algo existente. Use serviço para instalação, criação ou alteração.',
-        evidence: 'guidance',
-      },
-    ],
-  },
-  {
-    id: 'provide-main-details',
-    shortTitle: 'Informar',
-    title: 'Informe os dados principais',
-    description:
-      'Identifique o equipamento, as pessoas que precisam acompanhar e o local em que a situação ocorre.',
-    captures: [
-      {
-        id: 'main-request-fields',
-        title: 'Informe dispositivo, observadores e localização',
-        description:
-          'Este recorte real concentra os campos desta etapa; Urgência e Categoria serão explicadas separadamente na próxima etapa.',
-        src: '/portal/campos-principais.png',
-        width: 500,
-        height: 267,
-        hotspots: [
-          {
-            id: 1,
-            x: 4.3,
-            y: 15.1,
-            width: 92.1,
-            height: 15.4,
-            legend:
-              'Dispositivos do usuário: selecione o equipamento relacionado quando ele estiver disponível.',
-            evidence: 'observed',
-          },
-          {
-            id: 2,
-            x: 4.3,
-            y: 47.9,
-            width: 92.1,
-            height: 15.4,
-            legend:
-              'Observadores: inclua somente pessoas que realmente precisam acompanhar o atendimento.',
+            label: 'Solicitar um serviço',
+            description: 'Use para pedir instalação, criação ou alteração.',
             evidence: 'guidance',
-          },
-          {
-            id: 3,
-            x: 4.3,
-            y: 80.7,
-            width: 92.1,
-            height: 15.4,
-            legend:
-              'Localização: selecione a unidade ou o local relacionado à ocorrência.',
-            evidence: 'observed',
           },
         ],
       },
@@ -102,14 +43,12 @@ export const supportTutorialSteps = [
     id: 'set-urgency-and-category',
     shortTitle: 'Classificar',
     title: 'Defina urgência e categoria',
-    description:
-      'Indique o impacto real e escolha a categoria ou subcategoria mais específica para o assunto.',
+    description: 'Classifique o impacto e o assunto do chamado.',
     captures: [
       {
         id: 'urgency-options',
-        title: 'Escolha a urgência conforme o impacto',
-        description:
-          'Na sessão documentada, o portal apresentou Muito Baixa, Baixa, Média, Alta e Muito Alta. O recorte disponível mostra o final dessa lista.',
+        title: 'Urgência',
+        description: 'O recorte atual mostra apenas o final da lista.',
         src: '/portal/urgencia.png',
         width: 980,
         height: 450,
@@ -120,39 +59,49 @@ export const supportTutorialSteps = [
             y: 0,
             width: 47,
             height: 21,
-            legend:
-              'Alta e Muito Alta aparecem no final da lista registrada nesta captura.',
-            evidence: 'observed',
+            label: 'Escolher a urgência',
+            description: 'Avalie o impacto real, não apenas a pressa.',
+            evidence: 'guidance',
           },
         ],
       },
       {
         id: 'category-options',
-        title: 'Pesquise a categoria e escolha a subcategoria',
+        title: 'Categoria',
         description:
-          'Ao abrir Categoria, o portal apresenta uma busca e opções organizadas por categoria e subcategoria.',
-        src: '/portal/categoria.png',
-        width: 980,
-        height: 430,
+          'Abra o campo, pesquise e escolha a opção mais específica.',
+        src: '/portal/categoria-pesquisa.png',
+        width: 500,
+        height: 350,
         hotspots: [
           {
             id: 1,
-            x: 3,
-            y: 19,
-            width: 47,
-            height: 8,
-            legend:
-              'Use a busca da lista para localizar uma palavra relacionada ao pedido.',
+            x: 4.3,
+            y: 11.7,
+            width: 92.1,
+            height: 11.4,
+            label: 'Abrir Categoria',
+            description: 'Clique no campo para ver as opções.',
             evidence: 'observed',
           },
           {
             id: 2,
-            x: 3,
-            y: 50,
-            width: 47,
-            height: 24,
-            legend:
-              'Escolha a subcategoria mais específica que represente o caso quando ela existir.',
+            x: 4.3,
+            y: 23.3,
+            width: 92.1,
+            height: 9.8,
+            label: 'Pesquisar',
+            description: 'Digite uma palavra relacionada ao pedido.',
+            evidence: 'observed',
+          },
+          {
+            id: 3,
+            x: 4.3,
+            y: 44,
+            width: 92.1,
+            height: 45.4,
+            label: 'Selecionar',
+            description: 'Escolha a subcategoria mais específica do seu caso.',
             evidence: 'guidance',
           },
         ],
@@ -161,7 +110,12 @@ export const supportTutorialSteps = [
     notes: [
       {
         id: 'urgency-impact',
-        text: 'Defina a urgência pelo impacto real, considerando pessoas afetadas e alternativas disponíveis, não apenas pela pressa pessoal.',
+        text: 'Considere quantas pessoas foram afetadas e se existe uma alternativa.',
+        evidence: 'guidance',
+      },
+      {
+        id: 'additional-fields',
+        text: 'Campos adicionais podem aparecer conforme seu perfil. Preencha somente quando houver uma opção aplicável ao seu caso.',
         evidence: 'guidance',
       },
     ],
@@ -169,27 +123,13 @@ export const supportTutorialSteps = [
   {
     id: 'describe-and-attach',
     shortTitle: 'Descrever',
-    title: 'Descreva e anexe evidências',
-    description:
-      'Use um título claro, explique o contexto de forma objetiva e anexe somente evidências úteis e revisadas.',
-    checklist: {
-      title: 'Inclua na descrição',
-      items: [
-        'O que tentou fazer',
-        'O que aconteceu',
-        'Onde ocorreu',
-        'Quando começou',
-        'Quem foi afetado, quando relevante',
-        'O que já tentou',
-      ],
-      evidence: 'guidance',
-    },
+    title: 'Descreva o problema e anexe evidências',
+    description: 'Explique o ocorrido e anexe somente arquivos úteis.',
     captures: [
       {
         id: 'description-and-attachments',
-        title: 'Preencha título, descrição e anexos',
-        description:
-          'O asterisco em Descrição indica que esse campo foi apresentado como obrigatório na sessão documentada.',
+        title: 'Título, descrição e anexo',
+        description: 'Preencha os campos destacados antes de revisar.',
         src: '/portal/descricao-anexos.png',
         width: 980,
         height: 565,
@@ -200,8 +140,8 @@ export const supportTutorialSteps = [
             y: 7,
             width: 94,
             height: 7,
-            legend:
-              'Título: informe de forma curta o sistema ou equipamento e a dificuldade encontrada.',
+            label: 'Escrever o título',
+            description: 'Resuma o sistema ou equipamento e o problema.',
             evidence: 'guidance',
           },
           {
@@ -210,8 +150,8 @@ export const supportTutorialSteps = [
             y: 31,
             width: 94,
             height: 18,
-            legend:
-              'Descrição: registre o que tentou fazer, o que aconteceu, onde, quando e qual mensagem apareceu.',
+            label: 'Descrever o problema',
+            description: 'Explique o ocorrido de forma objetiva.',
             evidence: 'guidance',
           },
           {
@@ -220,17 +160,28 @@ export const supportTutorialSteps = [
             y: 68,
             width: 37,
             height: 9,
-            legend:
-              'Anexos: o portal informou limite máximo de 2 MB na sessão documentada.',
+            label: 'Anexar evidências',
+            description: 'Adicione arquivos úteis de até 2 MB.',
             evidence: 'observed',
           },
         ],
       },
     ],
+    checklist: {
+      title: 'Na descrição, informe',
+      items: [
+        'O que aconteceu',
+        'Onde ocorreu',
+        'Quando começou',
+        'Mensagem de erro',
+        'O que já tentou',
+      ],
+      evidence: 'guidance',
+    },
     notes: [
       {
         id: 'attachment-privacy',
-        text: 'Antes de anexar, remova senhas, dados pessoais, acadêmicos e outras informações confidenciais.',
+        text: 'Remova senhas, dados pessoais e informações confidenciais dos anexos.',
         evidence: 'guidance',
       },
     ],
@@ -239,14 +190,12 @@ export const supportTutorialSteps = [
     id: 'review-and-submit',
     shortTitle: 'Revisar',
     title: 'Revise e envie',
-    description:
-      'Confira os campos e os anexos antes de usar o botão Enviar. Esta documentação não pressupõe o formato da confirmação posterior.',
+    description: 'Confira as informações antes de clicar em Enviar.',
     captures: [
       {
         id: 'review-and-submit-form',
-        title: 'Revise o formulário antes de enviar',
-        description:
-          'A evidência existente registra os campos finais e o botão Enviar, sem fabricar uma tela posterior.',
+        title: 'Revisão final',
+        description: 'Verifique título, descrição e anexos.',
         src: '/portal/descricao-anexos.png',
         width: 980,
         height: 565,
@@ -257,8 +206,9 @@ export const supportTutorialSteps = [
             y: 7,
             width: 94,
             height: 70,
-            legend:
-              'Revise título, descrição e anexos e confirme que nenhum dado confidencial será enviado.',
+            label: 'Revisar os campos',
+            description:
+              'Corrija informações incompletas e remova dados confidenciais.',
             evidence: 'guidance',
           },
           {
@@ -267,17 +217,11 @@ export const supportTutorialSteps = [
             y: 88,
             width: 10,
             height: 7,
-            legend: 'Enviar: botão observado no final do formulário.',
-            evidence: 'observed',
+            label: 'Enviar',
+            description: 'Clique somente depois de conferir o formulário.',
+            evidence: 'guidance',
           },
         ],
-      },
-    ],
-    notes: [
-      {
-        id: 'unverified-submit-confirmation',
-        text: 'A confirmação de envio não foi observada na sessão documentada e não deve ser representada como fato.',
-        evidence: 'guidance',
       },
     ],
   },
@@ -285,14 +229,12 @@ export const supportTutorialSteps = [
     id: 'track-ticket',
     shortTitle: 'Acompanhar',
     title: 'Acompanhe o chamado',
-    description:
-      'Use a lista de chamados, confira os filtros e ordene os resultados para localizar um atendimento.',
+    description: 'Use filtros e ordenação para localizar o atendimento.',
     captures: [
       {
         id: 'ticket-list',
-        title: 'Localize seus chamados',
-        description:
-          'A captura disponível registra filtros, ordenação e um estado sem resultados. Ela não mostra a tela interna de um chamado.',
+        title: 'Lista de chamados',
+        description: 'Confira os filtros quando um chamado não aparecer.',
         src: '/portal/chamados.png',
         width: 1300,
         height: 420,
@@ -303,7 +245,8 @@ export const supportTutorialSteps = [
             y: 4,
             width: 12,
             height: 7,
-            legend: 'Confira o filtro de Status ao procurar um chamado.',
+            label: 'Filtrar por status',
+            description: 'Revise o filtro aplicado à lista.',
             evidence: 'observed',
           },
           {
@@ -312,9 +255,9 @@ export const supportTutorialSteps = [
             y: 4,
             width: 18,
             height: 7,
-            legend:
-              'A lista observada permite ordenação por Última atualização.',
-            evidence: 'observed',
+            label: 'Ordenar por atualização',
+            description: 'Veja primeiro os chamados mais recentes.',
+            evidence: 'guidance',
           },
           {
             id: 3,
@@ -322,8 +265,9 @@ export const supportTutorialSteps = [
             y: 14,
             width: 97,
             height: 14,
-            legend:
-              'Nenhum resultado encontrado: mensagem registrada com os filtros e a conta usados na sessão.',
+            label: 'Conferir os resultados',
+            description:
+              'A mensagem indica que o filtro atual não encontrou itens.',
             evidence: 'observed',
           },
         ],
@@ -332,7 +276,7 @@ export const supportTutorialSteps = [
     notes: [
       {
         id: 'ticket-detail-guidance',
-        text: 'Quando houver um chamado disponível, abra-o para consultar atualizações e responder no próprio histórico.',
+        text: 'Quando houver um chamado, abra-o para acompanhar atualizações.',
         evidence: 'guidance',
       },
     ],

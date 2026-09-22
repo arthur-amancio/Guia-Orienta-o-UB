@@ -6,7 +6,7 @@ Guia didático em português para uso do GLPI UB. Prioridade: capturas reais com
 
 ## Leitura mínima
 
-- `content/support-tutorial.ts`: fonte única dos seis passos, capturas, hotspots e classificação de evidência.
+- `content/support-tutorial.ts`: fonte única das cinco etapas, capturas, hotspots e classificação de evidência.
 - `components/tutorial/`: tutorial, stepper, captura anotada, modal e estilos exclusivos do fluxo.
 - `app/page.tsx`: estrutura estática com header, tutorial, recursos secundários e footer.
 - `app/globals.css`: tokens, base institucional e estilos globais compartilhados pelas capturas e pela página.
@@ -102,3 +102,17 @@ Foram corrigidos dois defeitos no CSS global: o link do rodapé não recebe mais
 `npm run dev` continuou bloqueado pelo Vinext externo no PID 15, diretório `/site`, em `localhost:4173`. Uma instância de produção deste checkout respondeu corretamente em porta alternativa, mas o navegador supervisionado bloqueou o acesso à porta local e à rota `terminal.local`; por isso, não houve inspeção visual, teste interativo dos viewports nem leitura do console. Nenhum processo desconhecido foi encerrado e nenhuma configuração foi alterada. O PR do W5 deve permanecer em Draft com essa limitação explícita até a validação visual externa.
 
 A entrega final está na branch `feat/guided-support-tutorial` e no PR Draft [#1](https://github.com/arthur-amancio/Guia-Orienta-o-UB/pull/1), sem merge e sem publicação.
+
+## W6 — simplificação didática baseada em teste real
+
+Em 22/09/2026, o fluxo principal foi reduzido de seis para cinco etapas: escolher o atendimento; definir urgência e categoria; descrever e anexar; revisar e enviar; acompanhar. Dispositivo, Observadores e Localização deixaram de constituir uma etapa e são mencionados somente por uma nota opcional: campos adicionais devem ser preenchidos apenas quando houver uma opção aplicável ao caso.
+
+O conteúdo visível foi condensado em ações curtas, com a captura posicionada antes de notas e checklist. Cada hotspot passou a ter rótulo de ação e uma frase breve; `observed | guidance` continua obrigatório no modelo, mas os indicadores visuais ficaram secundários. A checklist de descrição foi reduzida a ocorrido, local, início, mensagem de erro e tentativas já realizadas.
+
+`public/portal/categoria-pesquisa.png` (500 × 350) foi criado exclusivamente por crop de pixels da captura real e sanitizada `categoria.png`. Seus três hotspots foram recalculados para campo, busca e opções. O recorte anterior `campos-principais.png` foi removido por não integrar mais o fluxo, e o pipeline passou a reproduzir somente o novo recorte de Categoria.
+
+O modal agora usa um palco interno que centraliza a captura horizontalmente quando ela cabe e mantém rolagem horizontal quando sua largura real excede a viewport. Nenhum pixel, controle ou texto de interface foi fabricado.
+
+Ainda é necessária uma captura real e sanitizada do menu completo de Urgência; o recorte atual mostra somente o final da lista. Também seriam desejáveis, sem bloquear o tutorial, capturas reais separadas de título/descrição, anexos e revisão/Enviar, além de detalhe interno ou confirmação somente se esse material existir de forma autorizada. Nunca criar ou enviar um chamado para obtê-las.
+
+A prévia supervisionada do W6 continuou indisponível porque o processo Vinext externo no PID 15, diretório `/site`, ocupa a porta exclusiva do ambiente. O supervisor confirmou que não havia uma prévia deste checkout para encerrar. Nenhum processo desconhecido foi interrompido e nenhuma configuração foi alterada; portanto, centralização do modal, rolagem horizontal e viewports de 1440/390/320 px foram revisadas por código, mas não validadas interativamente no navegador neste marco.

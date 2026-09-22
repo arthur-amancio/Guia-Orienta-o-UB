@@ -9,8 +9,8 @@ import { TutorialStepper } from './tutorial-stepper';
 import styles from './tutorial.module.css';
 
 const evidenceLabels: Record<EvidenceKind, string> = {
-  observed: 'Observado no portal',
-  guidance: 'Orientação geral',
+  observed: 'Observado',
+  guidance: 'Orientação',
 };
 
 const SUPPORT_PORTAL_URL = 'https://suporte.ub.edu.br/Helpdesk';
@@ -78,27 +78,17 @@ export function SupportTutorial() {
         onSelect={selectStep}
       />
 
-      <p className={styles.counter} aria-hidden="true">
-        Etapa {currentIndex + 1} de {steps.length}
-      </p>
       <p className={styles.liveStatus} aria-live="polite" aria-atomic="true">
         Etapa {currentIndex + 1} de {steps.length} — {currentStep.title}
       </p>
-
-      <aside className={styles.evidenceKey} aria-label="Como ler as evidências">
-        <strong>Como ler:</strong>
-        <span>
-          <b>Observado no portal</b> = confirmado nas telas documentadas.
-        </span>
-        <span>
-          <b>Orientação geral</b> = recomendação de uso.
-        </span>
-      </aside>
 
       <article
         className={styles.step}
         aria-labelledby={`tutorial-step-${currentStep.id}`}
       >
+        <p className={styles.counter} aria-hidden="true">
+          Etapa {currentIndex + 1} de {steps.length}
+        </p>
         <h2
           ref={headingRef}
           id={`tutorial-step-${currentStep.id}`}
@@ -107,6 +97,14 @@ export function SupportTutorial() {
           {currentStep.title}
         </h2>
         <p>{currentStep.description}</p>
+
+        <div className={styles.captures}>
+          {currentStep.captures.map((capture) => (
+            <div className={styles.captureGroup} key={capture.id}>
+              <CaptureViewer capture={capture} showEvidence />
+            </div>
+          ))}
+        </div>
 
         {currentStep.checklist && (
           <section
@@ -130,25 +128,6 @@ export function SupportTutorial() {
             </ul>
           </section>
         )}
-
-        {currentStep.captures.length > 1 && (
-          <p className={styles.captureSetIntro}>
-            As duas capturas abaixo fazem parte desta mesma etapa.
-          </p>
-        )}
-
-        <div className={styles.captures}>
-          {currentStep.captures.map((capture, captureIndex) => (
-            <div className={styles.captureGroup} key={capture.id}>
-              {currentStep.captures.length > 1 && (
-                <p className={styles.capturePart}>
-                  Parte {captureIndex + 1} de {currentStep.captures.length}
-                </p>
-              )}
-              <CaptureViewer capture={capture} showEvidence />
-            </div>
-          ))}
-        </div>
 
         {currentStep.notes && (
           <ul className={styles.notes}>
@@ -177,14 +156,21 @@ export function SupportTutorial() {
             Abrir Portal de Suporte <ExternalLink size={18} />
           </a>
         ) : (
-          <button
-            type="button"
-            onClick={() => selectStep(currentIndex + 1)}
-          >
+          <button type="button" onClick={() => selectStep(currentIndex + 1)}>
             Próximo <ArrowRight size={18} />
           </button>
         )}
       </div>
+
+      <aside className={styles.evidenceKey} aria-label="Como ler as indicações">
+        <span>
+          <b>Observado</b> aparece na captura.
+        </span>
+        <span aria-hidden="true">•</span>
+        <span>
+          <b>Orientação</b> é uma recomendação de uso.
+        </span>
+      </aside>
     </section>
   );
 }
