@@ -81,6 +81,7 @@ export function CaptureViewer({
 }) {
   const [expanded, setExpanded] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
   const descriptionId = useId();
 
@@ -91,6 +92,11 @@ export function CaptureViewer({
     if (!expanded && dialog.open) dialog.close();
   }, [expanded]);
 
+  const handleDialogClose = () => {
+    setExpanded(false);
+    window.requestAnimationFrame(() => triggerRef.current?.focus());
+  };
+
   return (
     <figure className="portal-screen">
       <figcaption>
@@ -99,6 +105,7 @@ export function CaptureViewer({
       </figcaption>
       <CaptureImage capture={capture} />
       <button
+        ref={triggerRef}
         type="button"
         className="zoom-button"
         onClick={() => setExpanded(true)}
@@ -110,7 +117,7 @@ export function CaptureViewer({
         className="capture-dialog"
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
-        onClose={() => setExpanded(false)}
+        onClose={handleDialogClose}
       >
         <h2 id={titleId}>{capture.title}</h2>
         <p id={descriptionId}>

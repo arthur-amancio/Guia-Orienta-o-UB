@@ -172,6 +172,18 @@ export const supportTutorialSteps = [
     title: 'Descreva e anexe evidências',
     description:
       'Use um título claro, explique o contexto de forma objetiva e anexe somente evidências úteis e revisadas.',
+    checklist: {
+      title: 'Inclua na descrição',
+      items: [
+        'O que tentou fazer',
+        'O que aconteceu',
+        'Onde ocorreu',
+        'Quando começou',
+        'Quem foi afetado, quando relevante',
+        'O que já tentou',
+      ],
+      evidence: 'guidance',
+    },
     captures: [
       {
         id: 'description-and-attachments',

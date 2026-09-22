@@ -39,11 +39,18 @@ export type TutorialNote = {
   evidence: EvidenceKind;
 };
 
+export type TutorialChecklist = {
+  title: string;
+  items: readonly string[];
+  evidence: EvidenceKind;
+};
+
 export type TutorialStep = {
   id: string;
   shortTitle: string;
   title: string;
   description: string;
   captures: readonly TutorialCapture[];
+  checklist?: TutorialChecklist;
   notes?: readonly TutorialNote[];
 };

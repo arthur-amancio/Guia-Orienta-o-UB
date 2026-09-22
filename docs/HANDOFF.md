@@ -69,3 +69,13 @@ Em 21/09/2026, `app/page.tsx` passou a montar `SupportTutorial` no lugar do `Gui
 Os seis passos continuam derivados exclusivamente de `supportTutorialSteps`. Stepper, Anterior, Próximo, seleção direta, duas capturas do passo 3, hotspots, legendas, modal e classificação de evidência foram preservados. No sexto passo, o Próximo desabilitado foi substituído por `Abrir Portal de Suporte` em nova aba.
 
 Build, lint restrito e `git diff --check` passaram. A inspeção em navegador desktop e 390 × 844 ficou bloqueada no ambiente de execução porque um servidor externo ao checkout permaneceu ocupando a única porta da prévia mesmo após a parada supervisionada; nenhum processo desconhecido foi encerrado e nenhuma configuração específica do ambiente foi reintroduzida. A validação visual e do console deve ser repetida no W3B ou no primeiro ambiente de preview disponível.
+
+## W3B — UX, mobile e acessibilidade
+
+Em 22/09/2026, as trocas por Anterior, Próximo e pelo stepper passaram a focar o título da nova etapa e reposicioná-lo no início da área visível, sem rolagem no primeiro render e respeitando `prefers-reduced-motion`. O stepper mantém títulos derivados de `supportTutorialSteps`, diferencia etapa atual, visitadas e ainda não visitadas e usa, em telas menores, um resumo compacto com seis seletores acessíveis. O anúncio dinâmico agora combina posição e título da etapa.
+
+O diálogo nativo devolve explicitamente o foco ao botão que abriu a captura. A distinção entre evidência observada e orientação geral ganhou uma explicação única e labels mais discretos. O passo 3 explicita a sequência das duas capturas; o passo 4 recebeu um checklist curto, tipado e classificado como orientação geral. As classificações existentes, hotspots e assets não foram alterados.
+
+A prévia continuou indisponível: `npm run dev` encontrou um servidor Vinext externo no PID 15, diretório `/site`, ocupando `localhost:4173`. O processo não foi encerrado e nenhuma configuração do projeto foi modificada. Assim, desktop, tablet, viewports móveis, console, foco/scroll e diálogo ainda precisam de inspeção visual/interativa no primeiro ambiente disponível; build, lint restrito e verificações de diff foram usados como validação estática.
+
+Dívida explícita para W4: o guia longo preservado abaixo do tutorial contém textos mais assertivos que a evidência documentada, inclusive instruções para aguardar uma confirmação e guardar o número do chamado. Não propagar essas afirmações para o tutorial novo sem nova evidência real.

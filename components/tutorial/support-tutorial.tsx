@@ -1,7 +1,7 @@
 'use client';
 
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { supportTutorialSteps } from '@/content/support-tutorial';
 import type { EvidenceKind, TutorialStep } from '@/types/tutorial';
 import { CaptureViewer } from './annotated-capture';
@@ -17,6 +17,11 @@ const SUPPORT_PORTAL_URL = 'https://suporte.ub.edu.br/Helpdesk';
 
 export function SupportTutorial() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [visitedIndexes, setVisitedIndexes] = useState<ReadonlySet<number>>(
+    () => new Set([0]),
+  );
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const previousIndexRef = useRef(currentIndex);
   const steps: readonly TutorialStep[] = supportTutorialSteps;
   const currentStep = steps[currentIndex];
   const isFirstStep = currentIndex === 0;
@@ -24,8 +29,31 @@ export function SupportTutorial() {
 
   const selectStep = (index: number) => {
     if (index < 0 || index >= steps.length) return;
+    setVisitedIndexes((visited) => {
+      if (visited.has(index)) return visited;
+      const nextVisited = new Set(visited);
+      nextVisited.add(index);
+      return nextVisited;
+    });
     setCurrentIndex(index);
   };
+
+  useEffect(() => {
+    if (previousIndexRef.current === currentIndex) return;
+    previousIndexRef.current = currentIndex;
+
+    const heading = headingRef.current;
+    if (!heading) return;
+
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+    heading.focus({ preventScroll: true });
+    heading.scrollIntoView({
+      behavior: reduceMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
+  }, [currentIndex]);
 
   return (
     <section
@@ -46,29 +74,89 @@ export function SupportTutorial() {
       <TutorialStepper
         steps={steps}
         currentIndex={currentIndex}
+        visitedIndexes={visitedIndexes}
         onSelect={selectStep}
       />
 
-      <p className={styles.counter} aria-live="polite">
+      <p className={styles.counter} aria-hidden="true">
         Etapa {currentIndex + 1} de {steps.length}
       </p>
+      <p className={styles.liveStatus} aria-live="polite" aria-atomic="true">
+        Etapa {currentIndex + 1} de {steps.length} — {currentStep.title}
+      </p>
+
+      <aside className={styles.evidenceKey} aria-label="Como ler as evidências">
+        <strong>Como ler:</strong>
+        <span>
+          <b>Observado no portal</b> = confirmado nas telas documentadas.
+        </span>
+        <span>
+          <b>Orientação geral</b> = recomendação de uso.
+        </span>
+      </aside>
 
       <article
         className={styles.step}
         aria-labelledby={`tutorial-step-${currentStep.id}`}
       >
-        <h2 id={`tutorial-step-${currentStep.id}`}>{currentStep.title}</h2>
+        <h2
+          ref={headingRef}
+          id={`tutorial-step-${currentStep.id}`}
+          tabIndex={-1}
+        >
+          {currentStep.title}
+        </h2>
         <p>{currentStep.description}</p>
 
-        {currentStep.captures.map((capture) => (
-          <CaptureViewer key={capture.id} capture={capture} showEvidence />
-        ))}
+        {currentStep.checklist && (
+          <section
+            className={styles.checklist}
+            aria-labelledby={`tutorial-checklist-${currentStep.id}`}
+          >
+            <div>
+              <h3 id={`tutorial-checklist-${currentStep.id}`}>
+                {currentStep.checklist.title}
+              </h3>
+              <small
+                className={`evidence-label is-${currentStep.checklist.evidence}`}
+              >
+                {evidenceLabels[currentStep.checklist.evidence]}
+              </small>
+            </div>
+            <ul>
+              {currentStep.checklist.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {currentStep.captures.length > 1 && (
+          <p className={styles.captureSetIntro}>
+            As duas capturas abaixo fazem parte desta mesma etapa.
+          </p>
+        )}
+
+        <div className={styles.captures}>
+          {currentStep.captures.map((capture, captureIndex) => (
+            <div className={styles.captureGroup} key={capture.id}>
+              {currentStep.captures.length > 1 && (
+                <p className={styles.capturePart}>
+                  Parte {captureIndex + 1} de {currentStep.captures.length}
+                </p>
+              )}
+              <CaptureViewer capture={capture} showEvidence />
+            </div>
+          ))}
+        </div>
 
         {currentStep.notes && (
           <ul className={styles.notes}>
             {currentStep.notes.map((note) => (
               <li key={note.id}>
-                <strong>{evidenceLabels[note.evidence]}</strong>
+                <small className={`evidence-label is-${note.evidence}`}>
+                  {evidenceLabels[note.evidence]}
+                </small>
                 <span>{note.text}</span>
               </li>
             ))}
