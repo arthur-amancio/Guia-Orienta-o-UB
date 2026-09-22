@@ -63,11 +63,11 @@ export function SupportTutorial() {
       <header className={styles.header}>
         <p className="eyebrow">Passo a passo • Portal de suporte UB</p>
         <h1 id="support-tutorial-title">
-          Tutorial para abrir e acompanhar um chamado
+          Como abrir um chamado no Portal de Suporte UB
         </h1>
         <p>
-          Siga uma etapa de cada vez usando as capturas reais do Portal de
-          Suporte.
+          Acompanhe as telas reais e veja exatamente onde clicar e o que
+          preencher.
         </p>
       </header>
 

@@ -6,9 +6,10 @@ Guia didático em português para uso do GLPI UB. Prioridade: capturas reais com
 
 ## Leitura mínima
 
-- `components/portal-guide.tsx`: dados das capturas, marcações percentuais, legendas, modal de ampliação e carrossel de 3 etapas.
-- `app/page.tsx`: seções do guia, pesquisa, links do portal e impressão.
-- `app/globals.css`: estilos; regras do tutorial ficam no início. Existem estilos antigos do hero sem uso, preservados para evitar limpeza ampla.
+- `content/support-tutorial.ts`: fonte única dos seis passos, capturas, hotspots e classificação de evidência.
+- `components/tutorial/`: tutorial, stepper, captura anotada, modal e estilos exclusivos do fluxo.
+- `app/page.tsx`: estrutura estática com header, tutorial, recursos secundários e footer.
+- `app/globals.css`: tokens, base institucional e estilos globais compartilhados pelas capturas e pela página.
 - `public/portal/`: somente recortes revisados do sistema real; identificação da conta excluída fisicamente.
 - `scripts/prepare-captures.mjs`: recorta capturas reais locais com sharp; não gera UI, não modifica textos. Entrada fora do repositório, ex.: `node scripts/prepare-captures.mjs ../work`. Coordenadas só valem para os tamanhos de origem daquela sessão.
 
@@ -30,7 +31,7 @@ FAQ (`/front/helpdesk.faq.php`) tem Pesquisar, Navegar e busca. Reservas (`/fron
 
 - Tutorial real substitui as imagens geradas anteriormente. Os três PNGs antigos `public/suporte-*.png` foram retirados da árvore atual e permanecem recuperáveis no histórico do Git; não reutilizar.
 - As anotações são elementos HTML sobre os pixels reais, para manter a captura original legível. Legendas permanecem acessíveis e ampliação mostra imagem com largura mínima para ler no celular.
-- O PDF antigo permanece como arquivo legado, mas os botões agora imprimem a página atual / permitem salvar PDF pelo navegador, evitando entregar conteúdo desatualizado.
+- O PDF antigo e os botões de impressão foram removidos no W4 porque o arquivo estava desatualizado e a página interativa renderiza somente a etapa ativa.
 - Publicar apenas após nova autorização explícita. Próximo refinamento: capturas sanitizadas de detalhe de chamado e confirmação de envio, quando disponíveis.
 - Não há nome ou credencial do colaborador nos arquivos de entrega. Capturas brutas locais ficam fora do checkout e não devem ser copiadas para ele.
 
@@ -40,7 +41,7 @@ Em 16/09/2026: `npm run build` passou; `npx oxlint app components/portal-guide.t
 
 Correção posterior em 16/09/2026: `app/page.tsx` já usava `<PortalScreen name="urgencia" />`, mas o registro `screens.urgencia` não havia sido incluído no commit. Isso causava erro 500 ao tentar ler `screen.title`. O registro foi restaurado usando a captura real `public/portal/urgencia.png`, e os nomes aceitos por `PortalScreen` agora são verificados pelo TypeScript. `npm run build`, `npx oxlint app components/portal-guide.tsx` e a abertura de `http://localhost:3000/` passaram após a correção.
 
-`npm run lint` completo ainda falha em componentes-base já existentes (`components/ui/*` e `hooks/use-mobile.ts`), fora do escopo desta entrega. Não atribuir esses erros às capturas novas; o lint restrito acima cobre `app/` e `components/portal-guide.tsx`.
+`npm run lint` completo ainda falha em componentes-base já existentes (`components/ui/*` e `hooks/use-mobile.ts`), fora do escopo desta entrega. Não atribuir esses erros às capturas novas; valide de forma restrita os arquivos de produto alterados.
 
 ## W1 — fundação do tutorial de seis etapas
 
@@ -79,3 +80,15 @@ O diálogo nativo devolve explicitamente o foco ao botão que abriu a captura. A
 A prévia continuou indisponível: `npm run dev` encontrou um servidor Vinext externo no PID 15, diretório `/site`, ocupando `localhost:4173`. O processo não foi encerrado e nenhuma configuração do projeto foi modificada. Assim, desktop, tablet, viewports móveis, console, foco/scroll e diálogo ainda precisam de inspeção visual/interativa no primeiro ambiente disponível; build, lint restrito e verificações de diff foram usados como validação estática.
 
 Dívida explícita para W4: o guia longo preservado abaixo do tutorial contém textos mais assertivos que a evidência documentada, inclusive instruções para aguardar uma confirmação e guardar o número do chamado. Não propagar essas afirmações para o tutorial novo sem nova evidência real.
+
+## W4 — consolidação e identidade institucional
+
+Em 22/09/2026, `app/page.tsx` tornou-se um Server Component estático e passou a conter somente header institucional, `SupportTutorial`, dois recursos secundários e footer. A pesquisa, a grade de tópicos, a navegação lateral, as oito seções documentais e o checklist final foram removidos. FAQ e Reservas agora aparecem apenas como cards breves que direcionam ao endereço principal validado do Portal de Suporte.
+
+`components/portal-guide.tsx`, incluindo `GuidedCarousel`, `PortalScreen` e o registro duplicado `screens`, foi excluído após busca confirmar ausência de consumidores. Os estilos correspondentes, além de regras antigas de hero e do guia longo, foram removidos de `app/globals.css`. O `CaptureViewer` compartilhado e toda a lógica funcional e acessível do tutorial W3B foram preservados.
+
+O CTA de impressão foi removido: imprimir a página interativa entregaria silenciosamente apenas a etapa ativa, e criar uma representação paralela dos seis passos contrariaria a fonte única. `public/guia-suporte-ub.pdf` também foi excluído porque não possuía consumidor e continha afirmações não comprovadas sobre confirmação, número e estados internos de chamado.
+
+O visual final usa azul-marinho, azul secundário, branco, cinzas claros e dourado pontual. Vermelho permanece exclusivo de hotspots e números das capturas. A estrutura responsiva cobre header, stepper compacto, capturas, navegação, recursos e footer sem introduzir novos fluxos ou assets.
+
+A tentativa de prévia do W4 continuou bloqueada pelo servidor Vinext externo no PID 15, diretório `/site`, em `localhost:4173`. Nenhum processo foi encerrado e nenhuma configuração foi alterada. A revisão de desktop e 390 × 844, incluindo console e modal, ainda precisa ser repetida em ambiente com a porta de preview disponível; neste marco foram executadas revisão estática de 320–1440 px, busca de referências, build, lint restrito e verificação de diff.
