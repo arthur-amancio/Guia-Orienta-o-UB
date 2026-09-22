@@ -100,3 +100,5 @@ Em 22/09/2026, a revisão completa de W1–W4 confirmou os seis passos, a fonte 
 Foram corrigidos dois defeitos no CSS global: o link do rodapé não recebe mais margem lateral junto de `width: 100%` entre 461 e 680 px, evitando overflow/alinhamento inconsistente; e as regras legadas de `@media print` foram removidas, pois impressão não é uma funcionalidade suportada. Não houve alteração em capturas, conteúdo factual ou dependências.
 
 `npm run dev` continuou bloqueado pelo Vinext externo no PID 15, diretório `/site`, em `localhost:4173`. Uma instância de produção deste checkout respondeu corretamente em porta alternativa, mas o navegador supervisionado bloqueou o acesso à porta local e à rota `terminal.local`; por isso, não houve inspeção visual, teste interativo dos viewports nem leitura do console. Nenhum processo desconhecido foi encerrado e nenhuma configuração foi alterada. O PR do W5 deve permanecer em Draft com essa limitação explícita até a validação visual externa.
+
+A entrega final está na branch `feat/guided-support-tutorial` e no PR Draft [#1](https://github.com/arthur-amancio/Guia-Orienta-o-UB/pull/1), sem merge e sem publicação.
