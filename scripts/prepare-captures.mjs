@@ -13,7 +13,8 @@ const crops = [
   ['problema', 'campos', 280, 115, 980, 515],
   ['problema', 'descricao-anexos', 280, 625, 980, 565],
   ['categoria', 'categoria', 280, 275, 980, 430],
-  ['urgencia', 'urgencia', 280, 170, 980, 450],
+  ['urgencia-completa', 'urgencia-completa', 32, 88, 460, 260],
+  ['categoria-selecao', 'categoria-selecao', 60, 0, 500, 322],
   ['chamados', 'chamados', 115, 95, 1300, 420],
   ['faq', 'faq', 115, 95, 1300, 240],
 ];
@@ -23,9 +24,3 @@ for (const [input, output, left, top, width, height] of crops) {
     .png()
     .toFile(`public/portal/${output}.png`);
 }
-
-// Focus the category dropdown using only pixels from the sanitized real capture.
-await sharp('public/portal/categoria.png')
-  .extract({ left: 8, top: 0, width: 500, height: 350 })
-  .png()
-  .toFile('public/portal/categoria-pesquisa.png');

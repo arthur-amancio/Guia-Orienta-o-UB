@@ -113,6 +113,10 @@ O conteúdo visível foi condensado em ações curtas, com a captura posicionada
 
 O modal agora usa um palco interno que centraliza a captura horizontalmente quando ela cabe e mantém rolagem horizontal quando sua largura real excede a viewport. Nenhum pixel, controle ou texto de interface foi fabricado.
 
-Ainda é necessária uma captura real e sanitizada do menu completo de Urgência; o recorte atual mostra somente o final da lista. Também seriam desejáveis, sem bloquear o tutorial, capturas reais separadas de título/descrição, anexos e revisão/Enviar, além de detalhe interno ou confirmação somente se esse material existir de forma autorizada. Nunca criar ou enviar um chamado para obtê-las.
+A pendência do menu de Urgência foi resolvida com uma captura real e sanitizada que mostra os cinco níveis completos. Continuam desejáveis, sem bloquear o tutorial, capturas reais separadas de título/descrição, anexos e revisão/Enviar, além de detalhe interno ou confirmação somente se esse material existir de forma autorizada. Nunca criar ou enviar um chamado para obtê-las.
 
 A prévia supervisionada do W6 continuou indisponível porque o processo Vinext externo no PID 15, diretório `/site`, ocupa a porta exclusiva do ambiente. O supervisor confirmou que não havia uma prévia deste checkout para encerrar. Nenhum processo desconhecido foi interrompido e nenhuma configuração foi alterada; portanto, centralização do modal, rolagem horizontal e viewports de 1440/390/320 px foram revisadas por código, mas não validadas interativamente no navegador neste marco.
+
+### Atualização curta de Urgência e Categoria
+
+Em 22/09/2026, `urgencia-completa.png` (460 × 260) substituiu o recorte parcial e passou a mostrar Muito Baixa, Baixa, Média, Alta e Muito Alta. `categoria-selecao.png` (500 × 322) substituiu o recorte anterior e registra busca, Redefinição de senha selecionada e opções de Impressora. Ambos são crops diretos de capturas reais fornecidas pelo usuário, sem reconstrução ou alteração dos pixels da interface. Dimensões, hotspots e classificações de evidência foram recalculados; a recomendação de escolher a opção mais específica permanece `guidance`, enquanto abertura, busca e opções visíveis são `observed`.
