@@ -3,16 +3,7 @@
 import Image from 'next/image';
 import { ZoomIn } from 'lucide-react';
 import { useEffect, useId, useRef, useState } from 'react';
-import type {
-  EvidenceKind,
-  TutorialCapture,
-  TutorialHotspot,
-} from '@/types/tutorial';
-
-const evidenceLabels: Record<EvidenceKind, string> = {
-  observed: 'Observado',
-  guidance: 'Orientação',
-};
+import type { TutorialCapture, TutorialHotspot } from '@/types/tutorial';
 
 function CaptureImage({
   capture,
@@ -57,13 +48,7 @@ function CaptureImage({
   );
 }
 
-function CaptureLegend({
-  hotspots,
-  showEvidence,
-}: {
-  hotspots: readonly TutorialHotspot[];
-  showEvidence: boolean;
-}) {
+function CaptureLegend({ hotspots }: { hotspots: readonly TutorialHotspot[] }) {
   return (
     <ol className="capture-legend">
       {hotspots.map((hotspot) => (
@@ -72,11 +57,6 @@ function CaptureLegend({
           <span className="capture-legend-copy">
             <strong>{hotspot.label}</strong>
             <span>{hotspot.description}</span>
-            {showEvidence && (
-              <small className={`evidence-label is-${hotspot.evidence}`}>
-                {evidenceLabels[hotspot.evidence]}
-              </small>
-            )}
           </span>
         </li>
       ))}
@@ -84,13 +64,7 @@ function CaptureLegend({
   );
 }
 
-export function CaptureViewer({
-  capture,
-  showEvidence = false,
-}: {
-  capture: TutorialCapture;
-  showEvidence?: boolean;
-}) {
+export function CaptureViewer({ capture }: { capture: TutorialCapture }) {
   const [expanded, setExpanded] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -148,12 +122,9 @@ export function CaptureViewer({
             <CaptureImage capture={capture} expanded />
           </div>
         </div>
-        <CaptureLegend
-          hotspots={capture.hotspots}
-          showEvidence={showEvidence}
-        />
+        <CaptureLegend hotspots={capture.hotspots} />
       </dialog>
-      <CaptureLegend hotspots={capture.hotspots} showEvidence={showEvidence} />
+      <CaptureLegend hotspots={capture.hotspots} />
     </figure>
   );
 }

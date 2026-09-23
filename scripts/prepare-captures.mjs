@@ -24,3 +24,14 @@ for (const [input, output, left, top, width, height] of crops) {
     .png()
     .toFile(`public/portal/${output}.png`);
 }
+
+// Tutorial-specific crops derive only from already sanitized, versioned assets.
+for (const [input, output, width, height] of [
+  ['descricao-anexos', 'descricao-anexos-foco', 980, 465],
+  ['chamados', 'chamados-foco', 1300, 150],
+]) {
+  await sharp(`public/portal/${input}.png`)
+    .extract({ left: 0, top: 0, width, height })
+    .png()
+    .toFile(`public/portal/${output}.png`);
+}

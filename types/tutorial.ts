@@ -6,8 +6,9 @@ export type PortalCaptureSource =
   | '/portal/inicio.png'
   | '/portal/urgencia-completa.png'
   | '/portal/categoria-selecao.png'
+  | '/portal/descricao-anexos-foco.png'
   | '/portal/descricao-anexos.png'
-  | '/portal/chamados.png';
+  | '/portal/chamados-foco.png';
 
 export type TutorialHotspot = {
   id: number;

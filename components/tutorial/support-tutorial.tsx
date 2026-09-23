@@ -3,15 +3,10 @@
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { supportTutorialSteps } from '@/content/support-tutorial';
-import type { EvidenceKind, TutorialStep } from '@/types/tutorial';
+import type { TutorialStep } from '@/types/tutorial';
 import { CaptureViewer } from './annotated-capture';
 import { TutorialStepper } from './tutorial-stepper';
 import styles from './tutorial.module.css';
-
-const evidenceLabels: Record<EvidenceKind, string> = {
-  observed: 'Observado',
-  guidance: 'Orientação',
-};
 
 const SUPPORT_PORTAL_URL = 'https://suporte.ub.edu.br/Helpdesk';
 
@@ -98,10 +93,16 @@ export function SupportTutorial() {
         </h2>
         <p>{currentStep.description}</p>
 
-        <div className={styles.captures}>
+        <div
+          className={
+            currentStep.captures.length > 1
+              ? `${styles.captures} ${styles.multipleCaptures}`
+              : styles.captures
+          }
+        >
           {currentStep.captures.map((capture) => (
             <div className={styles.captureGroup} key={capture.id}>
-              <CaptureViewer capture={capture} showEvidence />
+              <CaptureViewer capture={capture} />
             </div>
           ))}
         </div>
@@ -111,16 +112,9 @@ export function SupportTutorial() {
             className={styles.checklist}
             aria-labelledby={`tutorial-checklist-${currentStep.id}`}
           >
-            <div>
-              <h3 id={`tutorial-checklist-${currentStep.id}`}>
-                {currentStep.checklist.title}
-              </h3>
-              <small
-                className={`evidence-label is-${currentStep.checklist.evidence}`}
-              >
-                {evidenceLabels[currentStep.checklist.evidence]}
-              </small>
-            </div>
+            <h3 id={`tutorial-checklist-${currentStep.id}`}>
+              {currentStep.checklist.title}
+            </h3>
             <ul>
               {currentStep.checklist.items.map((item) => (
                 <li key={item}>{item}</li>
@@ -133,9 +127,6 @@ export function SupportTutorial() {
           <ul className={styles.notes}>
             {currentStep.notes.map((note) => (
               <li key={note.id}>
-                <small className={`evidence-label is-${note.evidence}`}>
-                  {evidenceLabels[note.evidence]}
-                </small>
                 <span>{note.text}</span>
               </li>
             ))}
@@ -161,16 +152,6 @@ export function SupportTutorial() {
           </button>
         )}
       </div>
-
-      <aside className={styles.evidenceKey} aria-label="Como ler as indicações">
-        <span>
-          <b>Observado</b> aparece na captura.
-        </span>
-        <span aria-hidden="true">•</span>
-        <span>
-          <b>Orientação</b> é uma recomendação de uso.
-        </span>
-      </aside>
     </section>
   );
 }
