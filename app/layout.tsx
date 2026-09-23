@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Guia do Colaborador | Universidade Brasil',
-  description: 'Orientações práticas para utilizar os sistemas da Universidade Brasil.',
+  title: 'Guia do Portal de Suporte | Universidade Brasil',
+  description:
+    'Tutorial visual para abrir e acompanhar chamados no Portal de Suporte da Universidade Brasil.',
 };
 
 export default function RootLayout({

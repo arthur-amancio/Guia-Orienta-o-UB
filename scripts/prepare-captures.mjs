@@ -3,18 +3,35 @@
 import sharp from 'sharp';
 import { mkdir } from 'node:fs/promises';
 const source = process.argv[2];
-if (!source) throw new Error('Pass the local directory containing reviewed portal-*.png captures.');
+if (!source)
+  throw new Error(
+    'Pass the local directory containing reviewed portal-*.png captures.',
+  );
 await mkdir('public/portal', { recursive: true });
 const crops = [
   ['home', 'inicio', 110, 550, 1300, 350],
   ['problema', 'campos', 280, 115, 980, 515],
   ['problema', 'descricao-anexos', 280, 625, 980, 565],
   ['categoria', 'categoria', 280, 275, 980, 430],
-  ['urgencia', 'urgencia', 280, 170, 980, 450],
+  ['urgencia-completa', 'urgencia-completa', 32, 88, 460, 260],
+  ['categoria-selecao', 'categoria-selecao', 60, 0, 500, 322],
   ['chamados', 'chamados', 115, 95, 1300, 420],
   ['faq', 'faq', 115, 95, 1300, 240],
 ];
 for (const [input, output, left, top, width, height] of crops) {
-  await sharp(`${source}/portal-${input}.png`).extract({ left, top, width, height })
-    .png().toFile(`public/portal/${output}.png`);
+  await sharp(`${source}/portal-${input}.png`)
+    .extract({ left, top, width, height })
+    .png()
+    .toFile(`public/portal/${output}.png`);
+}
+
+// Tutorial-specific crops derive only from already sanitized, versioned assets.
+for (const [input, output, width, height] of [
+  ['descricao-anexos', 'descricao-anexos-foco', 980, 465],
+  ['chamados', 'chamados-foco', 1300, 150],
+]) {
+  await sharp(`public/portal/${input}.png`)
+    .extract({ left: 0, top: 0, width, height })
+    .png()
+    .toFile(`public/portal/${output}.png`);
 }

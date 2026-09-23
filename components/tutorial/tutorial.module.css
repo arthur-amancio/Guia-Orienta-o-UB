@@ -1,0 +1,423 @@
+.tutorial {
+  min-width: 0;
+  padding: 40px max(20px, calc((100vw - 1180px) / 2)) 48px;
+  background: #edf2f7;
+}
+
+.header {
+  max-width: 900px;
+}
+
+.header h1 {
+  margin: 9px 0 16px;
+  color: var(--primary);
+  font-size: clamp(2rem, 4.2vw, 3.35rem);
+  line-height: 1.07;
+  letter-spacing: -0.032em;
+}
+
+.header > p:last-child {
+  max-width: 750px;
+  color: #44546a;
+  line-height: 1.65;
+}
+
+.stepperNav {
+  margin-top: 30px;
+}
+
+.desktopStepper {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #b5c4d4;
+  border-radius: 9px;
+  background: white;
+  list-style: none;
+}
+
+.navigation button,
+.navigation a {
+  min-height: 44px;
+  border: 1px solid #b5c4d4;
+  border-radius: 8px;
+  background: white;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.desktopStepper button {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.desktopStepper li + li {
+  border-left: 1px solid #d4dee8;
+}
+
+.desktopStepper li:first-child button {
+  border-radius: 8px 0 0 8px;
+}
+
+.desktopStepper li:last-child button {
+  border-radius: 0 8px 8px 0;
+}
+
+.desktopStepper button:focus-visible {
+  z-index: 1;
+}
+
+.desktopStepper button span {
+  flex: 0 0 auto;
+}
+
+.stepNumber {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #8799ab;
+  border-radius: 50%;
+  background: white;
+  font-size: 0.82rem;
+}
+
+.desktopStepper button[data-state='visited'] {
+  background: #eef3f7;
+}
+
+.desktopStepper button[data-state='visited'] .stepNumber {
+  border-style: double;
+  border-width: 3px;
+  background: #dbe6f0;
+}
+
+.desktopStepper button[data-state='future'] {
+  color: #657386;
+  font-weight: 600;
+}
+
+.desktopStepper button[aria-current='step'] {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+  box-shadow: inset 0 -4px 0 var(--accent);
+}
+
+.desktopStepper button[aria-current='step'] .stepNumber {
+  border-color: white;
+  background: white;
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.mobileSummary,
+.mobileStepper {
+  display: none;
+}
+
+.counter {
+  margin: 22px 0 6px;
+  color: #96640f;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.liveStatus {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.step {
+  min-width: 0;
+}
+
+.step > h2 {
+  margin: 0 0 10px;
+  scroll-margin-top: 104px;
+  color: var(--primary);
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  line-height: 1.14;
+}
+
+.step > h2:focus-visible {
+  outline: none;
+}
+
+.step > p {
+  margin: 0;
+  max-width: 780px;
+  color: #44546a;
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.checklist {
+  display: grid;
+  grid-template-columns: minmax(155px, 0.3fr) minmax(0, 1fr);
+  gap: 12px 22px;
+  max-width: 920px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--primary-2);
+  background: #e3edf6;
+}
+
+.checklist h3 {
+  margin: 0 0 7px;
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+.checklist ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist li {
+  position: relative;
+  padding-left: 18px;
+  color: #44546a;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.checklist li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.48em;
+  width: 7px;
+  height: 7px;
+  border: 2px solid var(--primary-2);
+  border-radius: 50%;
+}
+
+.captures {
+  min-width: 0;
+  display: grid;
+  gap: 22px;
+  margin-top: 18px;
+}
+
+.captureGroup {
+  min-width: 0;
+}
+
+.captureGroup :global(.portal-screen) {
+  margin: 0;
+}
+
+.captureGroup + .captureGroup {
+  padding-top: 26px;
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 1100px) {
+  .multipleCaptures {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .multipleCaptures .captureGroup + .captureGroup {
+    padding-top: 0;
+    border-top: 0;
+  }
+}
+
+.notes {
+  display: grid;
+  gap: 8px;
+  max-width: 920px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notes li {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border-left: 2px solid var(--accent);
+  background: #fff8e8;
+  color: #44546a;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.navigation button,
+.navigation a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.navigation a {
+  background: var(--primary);
+  color: white;
+}
+
+.navigation button:not(:disabled):hover {
+  border-color: var(--primary-2);
+  background: #f7fafc;
+}
+
+.navigation a:hover {
+  background: var(--primary-2);
+}
+
+@media (max-width: 820px) {
+  .desktopStepper {
+    display: none;
+  }
+
+  .mobileSummary {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    color: #4b5e72;
+    font-size: 0.84rem;
+  }
+
+  .mobileSummary strong {
+    color: var(--primary);
+    font-size: 0.94rem;
+  }
+
+  .mobileStepper {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin: 4px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mobileStepper button {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+  }
+
+  .mobileStepper button > span {
+    width: 12px;
+    height: 12px;
+    border: 2px solid #77899b;
+    border-radius: 50%;
+    background: white;
+  }
+
+  .mobileStepper button[data-state='visited'] > span {
+    border: 3px double var(--primary-2);
+    background: var(--primary-2);
+  }
+
+  .mobileStepper button[aria-current='step'] > span {
+    width: 18px;
+    height: 18px;
+    border: 5px double white;
+    background: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+
+  .counter {
+    display: none;
+  }
+
+  .checklist {
+    grid-template-columns: 1fr;
+  }
+
+  .checklist ul {
+    grid-template-columns: 1fr;
+  }
+
+  .captureGroup + .captureGroup {
+    padding-top: 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .tutorial {
+    padding: 30px 16px 40px;
+  }
+
+  .header h1 {
+    font-size: clamp(1.85rem, 10vw, 2.35rem);
+  }
+
+  .navigation {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.35fr);
+  }
+
+  .navigation button,
+  .navigation a {
+    min-width: 0;
+    min-height: 48px;
+    padding-inline: 10px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 350px) {
+  .tutorial {
+    padding-inline: 12px;
+  }
+
+  .mobileStepper {
+    gap: 0;
+  }
+
+  .mobileStepper button {
+    width: 43px;
+  }
+}
+
+@media (max-width: 820px) {
+  .step > h2 {
+    scroll-margin-top: 20px;
+  }
+}
