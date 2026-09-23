@@ -120,3 +120,11 @@ A prévia supervisionada do W6 continuou indisponível porque o processo Vinext 
 ### Atualização curta de Urgência e Categoria
 
 Em 22/09/2026, `urgencia-completa.png` (460 × 260) substituiu o recorte parcial e passou a mostrar Muito Baixa, Baixa, Média, Alta e Muito Alta. `categoria-selecao.png` (500 × 322) substituiu o recorte anterior e registra busca, Redefinição de senha selecionada e opções de Impressora. Ambos são crops diretos de capturas reais fornecidas pelo usuário, sem reconstrução ou alteração dos pixels da interface. Dimensões, hotspots e classificações de evidência foram recalculados; a recomendação de escolher a opção mais específica permanece `guidance`, enquanto abertura, busca e opções visíveis são `observed`.
+
+## W7 — hierarquia didática e precisão das evidências
+
+Em 23/09/2026, todos os hotspots, notas e checklist das cinco etapas foram auditados. Reportar um problema, Solicitar um serviço, os campos Título e Descrição, o botão Enviar e a ordenação por Última atualização passaram a `observed`, pois os elementos foram registrados diretamente nas capturas. Revisão antes do envio, privacidade, impacto da urgência, escolha da opção mais específica, campos adicionais, checklist e abertura futura de um chamado permanecem `guidance`.
+
+As legendas passaram a destacar a ação acima da explicação, com labels de evidência neutros e menores. Urgência e Categoria receberam separação sutil; checklist e notas ficaram visualmente secundárias. O texto visível caiu de 333 para 327 palavras. A revisão estática do modal confirmou a centralização por `capture-stage`; o padding horizontal passou a proteger os números dos hotspots também no início do scroll mobile.
+
+As capturas futuras são apenas melhorias: recortes focados de Título/Descrição, Anexos e revisão/Enviar, além de detalhe interno de chamado somente com material real autorizado. Urgência e Categoria não são mais pendências. A prévia continuou bloqueada pelo processo Vinext externo à árvore atual; nenhum processo foi encerrado e nenhuma configuração foi alterada. O próximo passo é QA visual externo de viewports, modal, foco/scroll e console antes de retirar o Draft do PR.

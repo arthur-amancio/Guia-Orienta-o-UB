@@ -23,7 +23,7 @@ export const supportTutorialSteps = [
             height: 30,
             label: 'Reportar um problema',
             description: 'Use quando algo que funcionava apresentou falha.',
-            evidence: 'guidance',
+            evidence: 'observed',
           },
           {
             id: 2,
@@ -33,7 +33,7 @@ export const supportTutorialSteps = [
             height: 30,
             label: 'Solicitar um serviço',
             description: 'Use para pedir instalação, criação ou alteração.',
-            evidence: 'guidance',
+            evidence: 'observed',
           },
         ],
       },
@@ -48,7 +48,7 @@ export const supportTutorialSteps = [
       {
         id: 'urgency-options',
         title: 'Urgência',
-        description: 'Abra o campo e escolha um dos cinco níveis disponíveis.',
+        description: 'Escolha um dos cinco níveis disponíveis.',
         src: '/portal/urgencia-completa.png',
         width: 460,
         height: 260,
@@ -78,8 +78,7 @@ export const supportTutorialSteps = [
       {
         id: 'category-options',
         title: 'Categoria',
-        description:
-          'Abra o campo, pesquise e escolha a opção mais específica.',
+        description: 'Escolha a opção mais específica para o caso.',
         src: '/portal/categoria-selecao.png',
         width: 500,
         height: 322,
@@ -152,7 +151,7 @@ export const supportTutorialSteps = [
             height: 7,
             label: 'Escrever o título',
             description: 'Resuma o sistema ou equipamento e o problema.',
-            evidence: 'guidance',
+            evidence: 'observed',
           },
           {
             id: 2,
@@ -162,7 +161,7 @@ export const supportTutorialSteps = [
             height: 18,
             label: 'Descrever o problema',
             description: 'Explique o ocorrido de forma objetiva.',
-            evidence: 'guidance',
+            evidence: 'observed',
           },
           {
             id: 3,
@@ -229,7 +228,7 @@ export const supportTutorialSteps = [
             height: 7,
             label: 'Enviar',
             description: 'Clique somente depois de conferir o formulário.',
-            evidence: 'guidance',
+            evidence: 'observed',
           },
         ],
       },
@@ -267,7 +266,7 @@ export const supportTutorialSteps = [
             height: 7,
             label: 'Ordenar por atualização',
             description: 'Veja primeiro os chamados mais recentes.',
-            evidence: 'guidance',
+            evidence: 'observed',
           },
           {
             id: 3,

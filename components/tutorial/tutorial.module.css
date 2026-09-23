@@ -194,9 +194,9 @@
   grid-template-columns: minmax(155px, 0.3fr) minmax(0, 1fr);
   gap: 12px 22px;
   max-width: 920px;
-  margin-top: 20px;
-  padding: 16px 18px;
-  border-left: 4px solid var(--primary-2);
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-left: 3px solid var(--primary-2);
   background: #e3edf6;
 }
 
@@ -249,6 +249,11 @@
   margin: 0;
 }
 
+.captureGroup + .captureGroup {
+  padding-top: 26px;
+  border-top: 1px solid var(--border);
+}
+
 .notes {
   display: grid;
   gap: 8px;
@@ -261,11 +266,11 @@
 .notes li {
   display: grid;
   gap: 4px;
-  padding: 12px 14px;
-  border-left: 4px solid var(--accent);
+  padding: 10px 12px;
+  border-left: 2px solid var(--accent);
   background: #fff8e8;
   color: #44546a;
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   line-height: 1.5;
 }
 
@@ -374,6 +379,10 @@
 
   .checklist ul {
     grid-template-columns: 1fr;
+  }
+
+  .captureGroup + .captureGroup {
+    padding-top: 20px;
   }
 }
 
