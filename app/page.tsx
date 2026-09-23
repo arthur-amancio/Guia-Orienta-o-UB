@@ -104,11 +104,7 @@ export default function Home() {
             <strong>Guia do Portal de Suporte</strong>
             <span>Orientação institucional para colaboradores.</span>
           </div>
-          <a
-            href={SUPPORT_PORTAL_URL}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={SUPPORT_PORTAL_URL} target="_blank" rel="noreferrer">
             suporte.ub.edu.br <ExternalLink size={15} aria-hidden="true" />
           </a>
         </div>
