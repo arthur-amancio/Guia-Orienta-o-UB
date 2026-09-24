@@ -8,13 +8,16 @@ import type { TutorialCapture, TutorialHotspot } from '@/types/tutorial';
 function CaptureImage({
   capture,
   expanded = false,
+  activeHotspot,
 }: {
   capture: TutorialCapture;
   expanded?: boolean;
+  activeHotspot: number | null;
 }) {
   return (
     <div
       className={`capture${expanded ? ' capture-expanded' : ''}`}
+      data-has-highlight={activeHotspot !== null}
       style={{
         aspectRatio: `${capture.width}/${capture.height}`,
         ...(expanded
@@ -33,6 +36,7 @@ function CaptureImage({
         <span
           key={hotspot.id}
           className="capture-mark"
+          data-highlighted={activeHotspot === hotspot.id}
           aria-hidden="true"
           style={{
             left: `${hotspot.x}%`,
@@ -48,16 +52,43 @@ function CaptureImage({
   );
 }
 
-function CaptureLegend({ hotspots }: { hotspots: readonly TutorialHotspot[] }) {
+function CaptureLegend({
+  hotspots,
+  activeHotspot,
+  onHighlight,
+}: {
+  hotspots: readonly TutorialHotspot[];
+  activeHotspot: number | null;
+  onHighlight: (id: number | null) => void;
+}) {
   return (
     <ol className="capture-legend">
       {hotspots.map((hotspot) => (
         <li key={hotspot.id}>
-          <b>{hotspot.id}</b>
-          <span className="capture-legend-copy">
-            <strong>{hotspot.label}</strong>
-            <span>{hotspot.description}</span>
-          </span>
+          <button
+            type="button"
+            data-highlighted={activeHotspot === hotspot.id}
+            onPointerEnter={(event) => {
+              if (event.pointerType === 'mouse') onHighlight(hotspot.id);
+            }}
+            onPointerLeave={(event) => {
+              if (
+                event.pointerType === 'mouse' &&
+                !event.currentTarget.matches(':focus-visible')
+              ) {
+                onHighlight(null);
+              }
+            }}
+            onFocus={() => onHighlight(hotspot.id)}
+            onBlur={() => onHighlight(null)}
+            onClick={() => onHighlight(hotspot.id)}
+          >
+            <b>{hotspot.id}</b>
+            <span className="capture-legend-copy">
+              <strong>{hotspot.label}</strong>
+              <span>{hotspot.description}</span>
+            </span>
+          </button>
         </li>
       ))}
     </ol>
@@ -66,6 +97,7 @@ function CaptureLegend({ hotspots }: { hotspots: readonly TutorialHotspot[] }) {
 
 export function CaptureViewer({ capture }: { capture: TutorialCapture }) {
   const [expanded, setExpanded] = useState(false);
+  const [activeHotspot, setActiveHotspot] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
@@ -89,7 +121,7 @@ export function CaptureViewer({ capture }: { capture: TutorialCapture }) {
         <h3>{capture.title}</h3>
         <p>{capture.description}</p>
       </figcaption>
-      <CaptureImage capture={capture} />
+      <CaptureImage capture={capture} activeHotspot={activeHotspot} />
       <button
         ref={triggerRef}
         type="button"
@@ -119,12 +151,24 @@ export function CaptureViewer({ capture }: { capture: TutorialCapture }) {
         </button>
         <div className="capture-scroll">
           <div className="capture-stage">
-            <CaptureImage capture={capture} expanded />
+            <CaptureImage
+              capture={capture}
+              expanded
+              activeHotspot={activeHotspot}
+            />
           </div>
         </div>
-        <CaptureLegend hotspots={capture.hotspots} />
+        <CaptureLegend
+          hotspots={capture.hotspots}
+          activeHotspot={activeHotspot}
+          onHighlight={setActiveHotspot}
+        />
       </dialog>
-      <CaptureLegend hotspots={capture.hotspots} />
+      <CaptureLegend
+        hotspots={capture.hotspots}
+        activeHotspot={activeHotspot}
+        onHighlight={setActiveHotspot}
+      />
     </figure>
   );
 }
