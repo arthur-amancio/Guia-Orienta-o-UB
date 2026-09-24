@@ -12,6 +12,12 @@
   --border: #dbe3ec;
   --card: #fff;
   --radius: 0.8rem;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
 }
 
 * {
@@ -140,22 +146,34 @@ button:disabled {
   background: var(--primary-2);
 }
 
+.support-link:active {
+  background: var(--primary);
+}
+
+.brand:hover strong,
+.footer-inner > a:hover,
+.resource-card a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .portal-screen {
   margin: 24px 0;
-  padding: 18px;
+  padding: var(--space-4);
   border: 1px solid var(--border);
   border-radius: 10px;
   background: white;
 }
 
 .portal-screen figcaption h3 {
-  margin: 0 0 5px;
+  margin: 0 0 var(--space-2);
   color: var(--primary);
-  font-size: 1.22rem;
+  font-size: 1.16rem;
+  line-height: 1.3;
 }
 
 .portal-screen figcaption p {
-  margin: 0 0 14px;
+  margin: 0 0 var(--space-4);
   color: #44546a;
   line-height: 1.5;
 }
@@ -170,6 +188,7 @@ button:disabled {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: 4px;
 }
 
 .capture-mark {
@@ -178,10 +197,26 @@ button:disabled {
   border-radius: 4px;
   box-shadow: 0 0 0 1px white;
   pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.capture[data-has-highlight='true']
+  .capture-mark:not([data-highlighted='true']) {
+  opacity: 0.5;
+}
+
+.capture-mark[data-highlighted='true'] {
+  background: rgba(169, 47, 8, 0.08);
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 4px #a92f08;
 }
 
 .capture-mark b,
-.capture-legend li > b {
+.capture-legend button > b {
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -215,6 +250,15 @@ button:disabled {
   text-align: left;
 }
 
+.zoom-button:hover {
+  border-color: var(--primary-2);
+  background: #f0f5fa;
+}
+
+.zoom-button:active {
+  background: #e4edf6;
+}
+
 .capture-legend {
   display: grid;
   gap: 0;
@@ -224,18 +268,38 @@ button:disabled {
 }
 
 .capture-legend li {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 10px 0;
   border-top: 1px solid #e1e7ee;
   line-height: 1.45;
 }
 
-.capture-legend li > b {
+.capture-legend button {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-2);
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  text-align: left;
+  transition: background-color 180ms ease;
+}
+
+.capture-legend button:hover,
+.capture-legend button:focus-visible,
+.capture-legend button[data-highlighted='true'] {
+  background: #edf3f9;
+}
+
+.capture-legend button:active {
+  background: #e2ecf6;
+}
+
+.capture-legend button > b {
   width: 27px;
   height: 27px;
-  flex-shrink: 0;
+  flex: 0 0 27px;
   font-size: 0.875rem;
 }
 
@@ -258,17 +322,17 @@ button:disabled {
   max-width: 96vw;
   max-height: 92vh;
   overflow: auto;
-  padding: 24px;
-  border: 0;
+  padding: var(--space-5);
+  border: 1px solid var(--border);
   border-radius: 12px;
   background: white;
   color: var(--foreground);
   margin: auto;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 18px 56px rgba(0, 0, 0, 0.26);
 }
 
 .capture-dialog::backdrop {
-  background: rgba(9, 24, 43, 0.68);
+  background: rgba(9, 24, 43, 0.64);
 }
 
 .capture-dialog h2 {
@@ -281,6 +345,11 @@ button:disabled {
   margin: 0;
   color: #44546a;
   line-height: 1.55;
+}
+
+.capture-dialog > .zoom-button {
+  display: flex;
+  margin-left: auto;
 }
 
 .capture-scroll {
@@ -304,7 +373,7 @@ button:disabled {
 .portal-resources {
   width: min(1180px, calc(100% - 40px));
   margin: 0 auto;
-  padding: 56px 0 64px;
+  padding: var(--space-7) 0 56px;
 }
 
 .resources-heading {
@@ -328,16 +397,16 @@ button:disabled {
 .resource-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 24px;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
 }
 
 .resource-card {
   min-width: 0;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 14px 16px;
-  padding: 22px;
+  gap: var(--space-3) var(--space-4);
+  padding: 20px;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: white;
@@ -380,12 +449,12 @@ button:disabled {
 
 .footer-inner {
   width: min(1180px, calc(100% - 40px));
-  min-height: 132px;
+  min-height: 120px;
   display: flex;
   align-items: center;
   gap: 16px;
   margin: 0 auto;
-  padding: 28px 0;
+  padding: var(--space-5) 0;
 }
 
 .footer-inner img {
@@ -517,5 +586,10 @@ button:disabled {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .capture-mark,
+  .capture-legend button {
+    transition: none;
   }
 }

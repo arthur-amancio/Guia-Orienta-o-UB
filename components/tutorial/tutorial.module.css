@@ -1,6 +1,6 @@
 .tutorial {
   min-width: 0;
-  padding: 40px max(20px, calc((100vw - 1180px) / 2)) 48px;
+  padding: var(--space-6) max(20px, calc((100vw - 1180px) / 2)) var(--space-7);
   background: #edf2f7;
 }
 
@@ -9,21 +9,21 @@
 }
 
 .header h1 {
-  margin: 9px 0 16px;
+  margin: var(--space-2) 0 var(--space-4);
   color: var(--primary);
-  font-size: clamp(2rem, 4.2vw, 3.35rem);
-  line-height: 1.07;
+  font-size: clamp(2rem, 3.6vw, 2.8rem);
+  line-height: 1.12;
   letter-spacing: -0.032em;
 }
 
 .header > p:last-child {
   max-width: 750px;
   color: #44546a;
-  line-height: 1.65;
+  line-height: 1.55;
 }
 
 .stepperNav {
-  margin-top: 30px;
+  margin-top: var(--space-5);
 }
 
 .desktopStepper {
@@ -57,7 +57,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 8px 10px;
+  padding: var(--space-2) 10px;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -101,8 +101,7 @@
 }
 
 .desktopStepper button[data-state='visited'] .stepNumber {
-  border-style: double;
-  border-width: 3px;
+  border: 2px solid var(--primary-2);
   background: #dbe6f0;
 }
 
@@ -111,11 +110,19 @@
   font-weight: 600;
 }
 
+.desktopStepper button:not([aria-current='step']):hover {
+  background: #e7eff7;
+}
+
+.desktopStepper button:not([aria-current='step']):active {
+  background: #dce8f3;
+}
+
 .desktopStepper button[aria-current='step'] {
   border-color: var(--primary);
   background: var(--primary);
   color: white;
-  box-shadow: inset 0 -4px 0 var(--accent);
+  box-shadow: inset 0 -3px 0 var(--accent);
 }
 
 .desktopStepper button[aria-current='step'] .stepNumber {
@@ -131,7 +138,7 @@
 }
 
 .counter {
-  margin: 22px 0 6px;
+  margin: 20px 0 var(--space-2);
   color: #96640f;
   font-size: 0.78rem;
   font-weight: 800;
@@ -156,10 +163,10 @@
 }
 
 .step > h2 {
-  margin: 0 0 10px;
+  margin: 0 0 var(--space-2);
   scroll-margin-top: 104px;
   color: var(--primary);
-  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
   line-height: 1.14;
 }
 
@@ -172,7 +179,7 @@
   max-width: 780px;
   color: #44546a;
   font-size: 1.02rem;
-  line-height: 1.65;
+  line-height: 1.55;
 }
 
 .checklist {
@@ -223,8 +230,8 @@
 .captures {
   min-width: 0;
   display: grid;
-  gap: 22px;
-  margin-top: 18px;
+  gap: var(--space-5);
+  margin-top: var(--space-4);
 }
 
 .captureGroup {
@@ -236,7 +243,7 @@
 }
 
 .captureGroup + .captureGroup {
-  padding-top: 26px;
+  padding-top: var(--space-5);
   border-top: 1px solid var(--border);
 }
 
@@ -275,8 +282,8 @@
 .navigation {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  margin-top: 24px;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
 }
 
 .navigation button,
@@ -293,13 +300,32 @@
   color: white;
 }
 
+.navigation button + button {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+}
+
 .navigation button:not(:disabled):hover {
   border-color: var(--primary-2);
   background: #f7fafc;
 }
 
+.navigation button + button:not(:disabled):hover,
 .navigation a:hover {
+  border-color: var(--primary-2);
   background: var(--primary-2);
+  color: white;
+}
+
+.navigation button:not(:disabled):active {
+  background: #e4edf6;
+}
+
+.navigation button + button:not(:disabled):active,
+.navigation a:active {
+  background: var(--primary);
+  color: white;
 }
 
 @media (max-width: 820px) {
@@ -362,6 +388,11 @@
     box-shadow: 0 0 0 2px var(--primary);
   }
 
+  .mobileStepper button:focus-visible,
+  .mobileStepper button:active {
+    background: #e7eff7;
+  }
+
   .counter {
     display: none;
   }
@@ -375,7 +406,7 @@
   }
 
   .captureGroup + .captureGroup {
-    padding-top: 20px;
+    padding-top: var(--space-5);
   }
 }
 

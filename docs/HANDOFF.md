@@ -142,3 +142,23 @@ As seis capturas usadas nas cinco etapas foram conferidas programaticamente (PNG
 O usuário concluiu o QA visual/interativo da branch em seu ambiente local após W8 e confirmou o resultado visual. O ambiente Work realizou a revisão completa do diff da feature e as validações técnicas, sem reivindicar a inspeção visual local do usuário. Oxfmt encontrou somente a formatação do link do rodapé em `app/page.tsx`, corrigida sem mudança de comportamento. `npm ci`, build, TypeScript, Oxlint restrito, Oxfmt e diff-check passaram. A auditoria confirmou cinco etapas, seis PNGs ativos com dimensões e hotspots válidos, IDs únicos, evidências `observed | guidance` válidas e crops reproduzíveis byte a byte. A inspeção das seis capturas não identificou dados pessoais ou confidenciais.
 
 Branch `feat/guided-support-tutorial`; PR [#1](https://github.com/arthur-amancio/Guia-Orienta-o-UB/pull/1) atualizado e retirado de Draft para revisão. Nenhum workflow/status de CI estava disponível no HEAD verificado. Não houve merge nem publicação. Melhorias futuras de capturas internas dependem de material real autorizado e não bloqueiam esta revisão.
+
+## W10 — experimento de polimento UI/UX
+
+Branch isolada `experiment/w10-ui-ux-polish`, criada da `main` em `75b0d15a3392052a56c7f3a2bf3080f8cdf50d66`. O fluxo, os cinco passos, o texto, os hotspots, os assets e as URLs permanecem iguais ao baseline. A legenda agora é um controle com alvo de 48 px: mouse, foco de teclado ou toque realçam o hotspot numerado correspondente, enquanto os demais ficam apenas menos destacados. A versão ampliada usa a mesma ligação. O destaque é discreto e desliga transições com `prefers-reduced-motion`.
+
+Foram ajustados ritmo de espaços, escala dos títulos, estados de botões e stepper, cartões secundários, rodapé e apresentação do diálogo sem alterar seu foco, centralização ou rolagem. O header continua não sticky até 820 px. A inspeção estática inclui os breakpoints 320–1440 px; a validação visual/interativa **desta branch experimental** ainda depende de teste externo nos seis viewports solicitados. O Vinext externo em `/site` ocupou a porta padrão e o navegador supervisionado bloqueou a instância deste checkout na porta alternativa com `ERR_BLOCKED_BY_CLIENT`; nenhum processo alheio ou configuração versionada foi alterado.
+
+Build, TypeScript, Oxlint restrito à feature, Oxfmt dos arquivos alterados e diff-check passaram. O lint global ainda encontra erros preexistentes em `components/ui/*` e `hooks/use-mobile.ts`, fora deste experimento. Nenhum PR, merge ou deploy faz parte do W10; a decisão de incorporar ou rejeitar o polimento requer comparação visual local com a `main`.
+
+## W11 — QA final do experimento W10
+
+O usuário aprovou localmente em desktop a interação legenda ↔ hotspot do W10. A revisão do ciclo de estado encontrou uma regressão possível em navegadores móveis que não transferem foco ao botão tocado: o hotspot podia continuar realçado sem uma limpeza explícita. `CaptureViewer` agora remove o realce no próximo `pointerdown` fora de suas legendas, sem cancelar o evento, bloquear rolagem ou mudar hover, foco, Tab e Shift+Tab. Trocar de legenda continua movendo o destaque; trocar de etapa continua desmontando e reiniciando o estado.
+
+A revisão estática de 320–1440 px não encontrou overflow ou inconsistência que justificasse outro ajuste. Etapas, conteúdo, CSS, assets, pixels, hotspots, stepper e modal permaneceram inalterados. A auditoria programática confirmou cinco etapas, os seis PNGs esperados, dimensões reais correspondentes, IDs únicos, evidências válidas e hotspots dentro dos limites.
+
+`npm ci`, build, TypeScript, Oxlint restrito à feature, Oxfmt e diff-check passaram. O lint global repetiu apenas a dívida preexistente em `components/ui/*` e `hooks/use-mobile.ts`. A aplicação compilada iniciou na porta alternativa 4313, mas o navegador supervisionado bloqueou `127.0.0.1` com `ERR_BLOCKED_BY_CLIENT`; portanto, o W11 não teve QA visual neste ambiente. Ainda é necessário validar localmente o toque e a limpeza do realce, sobretudo em 320 × 568. Não houve PR, merge ou publicação.
+
+## Preparação do repositório para revisão
+
+O `README.md` foi reestruturado como página inicial institucional do projeto, com objetivo, cinco etapas, recursos existentes, stack, execução local, validações, estrutura, privacidade, manutenção e status de revisão. Nenhum arquivo funcional, captura ou dependência foi alterado. A revisão de higiene não identificou secrets, credenciais ou outputs locais versionados; caches e builds permanecem ignorados. O lint global continua com apontamentos preexistentes nos componentes-base, documentados no README sem apresentá-los como aprovação integral.
