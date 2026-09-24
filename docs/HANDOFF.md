@@ -158,3 +158,7 @@ O usuário aprovou localmente em desktop a interação legenda ↔ hotspot do W1
 A revisão estática de 320–1440 px não encontrou overflow ou inconsistência que justificasse outro ajuste. Etapas, conteúdo, CSS, assets, pixels, hotspots, stepper e modal permaneceram inalterados. A auditoria programática confirmou cinco etapas, os seis PNGs esperados, dimensões reais correspondentes, IDs únicos, evidências válidas e hotspots dentro dos limites.
 
 `npm ci`, build, TypeScript, Oxlint restrito à feature, Oxfmt e diff-check passaram. O lint global repetiu apenas a dívida preexistente em `components/ui/*` e `hooks/use-mobile.ts`. A aplicação compilada iniciou na porta alternativa 4313, mas o navegador supervisionado bloqueou `127.0.0.1` com `ERR_BLOCKED_BY_CLIENT`; portanto, o W11 não teve QA visual neste ambiente. Ainda é necessário validar localmente o toque e a limpeza do realce, sobretudo em 320 × 568. Não houve PR, merge ou publicação.
+
+## Preparação do repositório para revisão
+
+O `README.md` foi reestruturado como página inicial institucional do projeto, com objetivo, cinco etapas, recursos existentes, stack, execução local, validações, estrutura, privacidade, manutenção e status de revisão. Nenhum arquivo funcional, captura ou dependência foi alterado. A revisão de higiene não identificou secrets, credenciais ou outputs locais versionados; caches e builds permanecem ignorados. O lint global continua com apontamentos preexistentes nos componentes-base, documentados no README sem apresentá-los como aprovação integral.
