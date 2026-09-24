@@ -98,6 +98,7 @@ function CaptureLegend({
 export function CaptureViewer({ capture }: { capture: TutorialCapture }) {
   const [expanded, setExpanded] = useState(false);
   const [activeHotspot, setActiveHotspot] = useState<number | null>(null);
+  const figureRef = useRef<HTMLElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
@@ -110,13 +111,31 @@ export function CaptureViewer({ capture }: { capture: TutorialCapture }) {
     if (!expanded && dialog.open) dialog.close();
   }, [expanded]);
 
+  useEffect(() => {
+    if (activeHotspot === null) return;
+
+    const clearHighlightOutsideLegend = (event: PointerEvent) => {
+      const target = event.target;
+      const figure = figureRef.current;
+      if (!(target instanceof Element) || !figure) return;
+      if (figure.contains(target) && target.closest('.capture-legend button')) {
+        return;
+      }
+      setActiveHotspot(null);
+    };
+
+    document.addEventListener('pointerdown', clearHighlightOutsideLegend);
+    return () =>
+      document.removeEventListener('pointerdown', clearHighlightOutsideLegend);
+  }, [activeHotspot]);
+
   const handleDialogClose = () => {
     setExpanded(false);
     window.requestAnimationFrame(() => triggerRef.current?.focus());
   };
 
   return (
-    <figure className="portal-screen">
+    <figure ref={figureRef} className="portal-screen">
       <figcaption>
         <h3>{capture.title}</h3>
         <p>{capture.description}</p>
